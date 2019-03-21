@@ -16,10 +16,10 @@ clock pumpTimer;
 		<name x="5" y="5">Main_Controller</name>
 		<declaration>// Place local declarations here.</declaration>
 		<location id="id0" x="-136" y="204">
-			<name x="-119" y="170">Stop_Pump_lower_Water</name>
+			<name x="-119" y="170">Stop_Pump_lower_Waterlevel</name>
 		</location>
 		<location id="id1" x="-136" y="374">
-			<name x="-127" y="340">Start_Pump_lower_Water</name>
+			<name x="-127" y="340">Start_Pump_lower_Waterlevel</name>
 			<label kind="invariant" x="-255" y="340">pumpTimer &lt;= 10</label>
 		</location>
 		<location id="id2" x="34" y="646">
