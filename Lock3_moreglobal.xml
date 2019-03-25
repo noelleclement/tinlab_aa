@@ -9,20 +9,43 @@ chan togglePump;
 // for doors
 const int doors = 2;
 typedef int[0, doors-1] id_D;
-chan toggleDoor[int[0,doors-1]];
-chan isOpen[int[0,doors-1]];
-chan isClosed[int[0,doors-1]];</declaration>
+
+chan openDoor[int[0, doors-1]];
+chan closeDoor[int[0, doors-1]];
+chan isOpen[int[0, doors-1]];
+chan isClosed[int[0, doors-1]];
+
+//for current model max 2 queues
+const int[1,2] queues = 2;
+int[0, queues-1] servingQueue;
+
+
+int[0, doors-1] firstDoor;
+int[0, doors-1] secondDoor;
+
+void defineDoorOrder(){
+    if(servingQueue==0){
+        firstDoor=0;
+        secondDoor=1;
+    }
+    else{
+       firstDoor=1;
+       secondDoor=0;
+    }
+}</declaration>
 	<template>
 		<name x="5" y="5">Main_Controller</name>
-		<declaration>// Place local declarations here.</declaration>
+		<declaration>// Place local declarations here.
+
+</declaration>
 		<location id="id0" x="510" y="561">
 			<name x="348" y="552">Pumpingincr_done</name>
 		</location>
 		<location id="id1" x="-136" y="187">
 			<name x="-280" y="178">Pumping_decr_done</name>
 		</location>
-		<location id="id2" x="170" y="0">
-			<name x="160" y="-34">Boat_arrived</name>
+		<location id="id2" x="76" y="0">
+			<name x="66" y="-34">Boat_arrived</name>
 		</location>
 		<location id="id3" x="-136" y="306">
 			<name x="-263" y="297">Pumping_decr</name>
@@ -84,39 +107,42 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id1"/>
-			<label kind="synchronisation" x="-127" y="229">togglePump!</label>
+			<label kind="synchronisation" x="-119" y="229">togglePump!</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id5"/>
-			<label kind="synchronisation" x="17" y="756">toggleDoor[1]!</label>
+			<label kind="synchronisation" x="-17" y="756">closeDoor[secondDoor]!</label>
 			<nail x="127" y="739"/>
 			<nail x="17" y="739"/>
 		</transition>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id6"/>
-			<label kind="synchronisation" x="459" y="756">toggleDoor[1]!</label>
+			<label kind="synchronisation" x="459" y="756">openDoor[secondDoor]!</label>
 			<nail x="569" y="739"/>
 			<nail x="450" y="739"/>
 		</transition>
 		<transition>
 			<source ref="id12"/>
 			<target ref="id12"/>
-			<label kind="synchronisation" x="620" y="127">toggleDoor[0]!</label>
+			<label kind="synchronisation" x="620" y="127">closeDoor[firstDoor]!</label>
 			<nail x="612" y="204"/>
 			<nail x="612" y="68"/>
 		</transition>
 		<transition>
 			<source ref="id14"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="255" y="-127">toggleDoor[0]!</label>
+			<label kind="synchronisation" x="238" y="-127">openDoor[firstDoor]!</label>
 			<nail x="374" y="-102"/>
 			<nail x="238" y="-102"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id14"/>
+			<label kind="select" x="136" y="0">i:int[0,1]</label>
+			<label kind="assignment" x="110" y="17">servingQueue:=i,
+defineDoorOrder()</label>
 		</transition>
 		<transition>
 			<source ref="id15"/>
@@ -134,7 +160,7 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id7"/>
-			<label kind="synchronisation" x="-93" y="654">isClosed[1]?</label>
+			<label kind="synchronisation" x="-110" y="654">isClosed[secondDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
@@ -143,7 +169,7 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id8"/>
-			<label kind="synchronisation" x="357" y="654">isOpen[1]?</label>
+			<label kind="synchronisation" x="323" y="654">isOpen[secondDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id10"/>
@@ -157,7 +183,7 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id12"/>
 			<target ref="id11"/>
-			<label kind="synchronisation" x="527" y="204">isClosed[0]?</label>
+			<label kind="synchronisation" x="527" y="204">isClosed[firstDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id13"/>
@@ -166,7 +192,7 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id14"/>
 			<target ref="id13"/>
-			<label kind="synchronisation" x="374" y="-25">isOpen[0]?</label>
+			<label kind="synchronisation" x="348" y="-25">isOpen[firstDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id16"/>
@@ -198,7 +224,6 @@ chan isClosed[int[0,doors-1]];</declaration>
 	<template>
 		<name>Door</name>
 		<parameter>id_D i</parameter>
-		<declaration>bool doorClosed = true;</declaration>
 		<location id="id19" x="-127" y="68">
 			<name x="-135" y="85">Is_Closing</name>
 		</location>
@@ -220,7 +245,7 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id20"/>
 			<target ref="id19"/>
-			<label kind="synchronisation" x="-255" y="51">toggleDoor[i]?</label>
+			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
 		</transition>
 		<transition>
 			<source ref="id21"/>
@@ -230,7 +255,7 @@ chan isClosed[int[0,doors-1]];</declaration>
 		<transition>
 			<source ref="id22"/>
 			<target ref="id21"/>
-			<label kind="synchronisation" x="-76" y="-59">toggleDoor[i]?</label>
+			<label kind="synchronisation" x="-76" y="-59">openDoor[i]?</label>
 		</transition>
 	</template>
 	<system>// List one or more processes to be composed into a system.
