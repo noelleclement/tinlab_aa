@@ -3,8 +3,16 @@
 <nta>
 	<declaration>// Place global declarations here.
 
-chan togglePump;
 
+
+// for pump
+chan pumpIn;
+chan pumpOut;
+chan pumpIdle;
+
+int[0,10] waterLevelLeft = 3;
+int[0,10] waterLevelRight = 8;
+int[0,10] waterLevelLockChamber = 3;`//Need to check edge case different level
 
 // for doors
 const int doors = 2;
@@ -32,6 +40,24 @@ void defineDoorOrder(){
        firstDoor=1;
        secondDoor=0;
     }
+}
+
+// Compare waterlevel lockchamber with left or right waterlevel and return true if lockchamber == left or right
+bool isLowerThanTarget(int i){
+    int targetWaterLevel;
+    if(i == 0){
+       targetWaterLevel = waterLevelLeft;
+    }
+    else{
+        targetWaterLevel = waterLevelRight;
+    }
+    if(waterLevelLockChamber &lt; targerWaterLevel){ 
+        return true;
+    }
+    else{
+        return false;
+    }
+
 }</declaration>
 	<template>
 		<name x="5" y="5">Main_Controller</name>
@@ -98,7 +124,7 @@ void defineDoorOrder(){
 		<transition>
 			<source ref="id9"/>
 			<target ref="id0"/>
-			<label kind="synchronisation" x="527" y="510">togglePump!</label>
+			<label kind="synchronisation" x="527" y="510">pumpIdle!</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
@@ -107,7 +133,7 @@ void defineDoorOrder(){
 		<transition>
 			<source ref="id3"/>
 			<target ref="id1"/>
-			<label kind="synchronisation" x="-119" y="229">togglePump!</label>
+			<label kind="synchronisation" x="-119" y="229">pumpIdle!</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
@@ -151,7 +177,7 @@ defineDoorOrder()</label>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id3"/>
-			<label kind="synchronisation" x="-119" y="374">togglePump!</label>
+			<label kind="synchronisation" x="-119" y="374">pumpOut!</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
@@ -174,7 +200,7 @@ defineDoorOrder()</label>
 		<transition>
 			<source ref="id10"/>
 			<target ref="id9"/>
-			<label kind="synchronisation" x="527" y="399">togglePump!</label>
+			<label kind="synchronisation" x="527" y="399">pumpIn!</label>
 		</transition>
 		<transition>
 			<source ref="id11"/>
@@ -201,60 +227,75 @@ defineDoorOrder()</label>
 	</template>
 	<template>
 		<name>Waterpump</name>
-		<location id="id17" x="-204" y="0">
-			<name x="-238" y="-17">On</name>
+		<location id="id17" x="68" y="34">
+			<name x="76" y="0">Pump_out</name>
 		</location>
-		<location id="id18" x="0" y="0">
-			<name x="8" y="-25">Off</name>
+		<location id="id18" x="-136" y="34">
+			<name x="-204" y="0">Pump_in</name>
 		</location>
-		<init ref="id18"/>
+		<location id="id19" x="-34" y="-34">
+			<name x="-42" y="-68">Idle</name>
+		</location>
+		<init ref="id19"/>
 		<transition>
 			<source ref="id17"/>
-			<target ref="id18"/>
-			<label kind="synchronisation" x="-144" y="51">togglePump?</label>
-			<nail x="-102" y="42"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-8" y="34">pumpIdle?</label>
+			<nail x="-34" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-119" y="34">pumpIdle?</label>
+			<nail x="-34" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
 			<target ref="id17"/>
-			<label kind="synchronisation" x="-136" y="-59">togglePump?</label>
-			<nail x="-102" y="-34"/>
+			<label kind="synchronisation" x="-8" y="-59">pumpOut?</label>
+			<nail x="68" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-119" y="-59">pumpIn?</label>
+			<nail x="-136" y="-34"/>
 		</transition>
 	</template>
 	<template>
 		<name>Door</name>
 		<parameter>id_D i</parameter>
-		<location id="id19" x="-127" y="68">
+		<location id="id20" x="-127" y="68">
 			<name x="-135" y="85">Is_Closing</name>
 		</location>
-		<location id="id20" x="-246" y="0">
+		<location id="id21" x="-246" y="0">
 			<name x="-280" y="17">Opened</name>
 		</location>
-		<location id="id21" x="-127" y="-59">
+		<location id="id22" x="-127" y="-59">
 			<name x="-137" y="-93">is_Opening</name>
 		</location>
-		<location id="id22" x="0" y="0">
+		<location id="id23" x="0" y="0">
 			<name x="-10" y="-34">Closed</name>
 		</location>
-		<init ref="id22"/>
-		<transition>
-			<source ref="id19"/>
-			<target ref="id22"/>
-			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
-		</transition>
+		<init ref="id23"/>
 		<transition>
 			<source ref="id20"/>
-			<target ref="id19"/>
-			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
 		</transition>
 		<transition>
 			<source ref="id21"/>
 			<target ref="id20"/>
-			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
+			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
 		</transition>
 		<transition>
 			<source ref="id22"/>
 			<target ref="id21"/>
+			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id22"/>
 			<label kind="synchronisation" x="-76" y="-59">openDoor[i]?</label>
 		</transition>
 	</template>
