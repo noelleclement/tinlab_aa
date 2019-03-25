@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+chan togglePump;
+
+
+// for doors
+const int doors = 2;
+typedef int[0, doors-1] id_D;
+chan toggleDoor[int[0,doors-1]];
+chan isOpen[int[0,doors-1]];
+chan isClosed[int[0,doors-1]];</declaration>
+	<template>
+		<name x="5" y="5">Main_Controller</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="510" y="561">
+			<name x="348" y="552">Pumpingincr_done</name>
+		</location>
+		<location id="id1" x="-136" y="187">
+			<name x="-280" y="178">Pumping_decr_done</name>
+		</location>
+		<location id="id2" x="170" y="0">
+			<name x="160" y="-34">Boat_arrived</name>
+		</location>
+		<location id="id3" x="-136" y="306">
+			<name x="-263" y="297">Pumping_decr</name>
+		</location>
+		<location id="id4" x="-136" y="459">
+			<name x="-306" y="450">Pumping_decr_start</name>
+		</location>
+		<location id="id5" x="68" y="646">
+			<name x="26" y="612">Rightdoor_closing</name>
+		</location>
+		<location id="id6" x="510" y="646">
+			<name x="518" y="612">Rightdoor_opening</name>
+		</location>
+		<location id="id7" x="-136" y="646">
+			<name x="-272" y="620">Rightdoor_closed</name>
+		</location>
+		<location id="id8" x="272" y="646">
+			<name x="212" y="612">Rightdoor_open</name>
+		</location>
+		<location id="id9" x="510" y="459">
+			<name x="391" y="450">Pumping_incr</name>
+		</location>
+		<location id="id10" x="510" y="365">
+			<name x="340" y="357">Pumping_incr_start</name>
+		</location>
+		<location id="id11" x="510" y="272">
+			<name x="374" y="263">firstdoor_closed</name>
+		</location>
+		<location id="id12" x="510" y="127">
+			<name x="365" y="119">firstdoor_closing</name>
+		</location>
+		<location id="id13" x="510" y="0">
+			<name x="527" y="-25">firstdoor_open</name>
+		</location>
+		<location id="id14" x="306" y="0">
+			<name x="255" y="17">firstdoor_opening</name>
+		</location>
+		<location id="id15" x="-136" y="0">
+			<name x="-170" y="-34">Wait_for_boat</name>
+		</location>
+		<location id="id16" x="-246" y="-51">
+			<name x="-256" y="-85">Initial</name>
+			<committed/>
+		</location>
+		<init ref="id16"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id6"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="527" y="510">togglePump!</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id15"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-127" y="229">togglePump!</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="17" y="756">toggleDoor[1]!</label>
+			<nail x="127" y="739"/>
+			<nail x="17" y="739"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="459" y="756">toggleDoor[1]!</label>
+			<nail x="569" y="739"/>
+			<nail x="450" y="739"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="620" y="127">toggleDoor[0]!</label>
+			<nail x="612" y="204"/>
+			<nail x="612" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="255" y="-127">toggleDoor[0]!</label>
+			<nail x="374" y="-102"/>
+			<nail x="238" y="-102"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id14"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id2"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-119" y="374">togglePump!</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id4"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-93" y="654">isClosed[1]?</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id5"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="357" y="654">isOpen[1]?</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="527" y="399">togglePump!</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="527" y="204">isClosed[0]?</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id12"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="374" y="-25">isOpen[0]?</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id15"/>
+		</transition>
+	</template>
+	<template>
+		<name>Waterpump</name>
+		<location id="id17" x="-204" y="0">
+			<name x="-238" y="-17">On</name>
+		</location>
+		<location id="id18" x="0" y="0">
+			<name x="8" y="-25">Off</name>
+		</location>
+		<init ref="id18"/>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-144" y="51">togglePump?</label>
+			<nail x="-102" y="42"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-136" y="-59">togglePump?</label>
+			<nail x="-102" y="-34"/>
+		</transition>
+	</template>
+	<template>
+		<name>Door</name>
+		<parameter>id_D i</parameter>
+		<declaration>bool doorClosed = true;</declaration>
+		<location id="id19" x="-127" y="68">
+			<name x="-135" y="85">Is_Closing</name>
+		</location>
+		<location id="id20" x="-246" y="0">
+			<name x="-280" y="17">Opened</name>
+		</location>
+		<location id="id21" x="-127" y="-59">
+			<name x="-137" y="-93">is_Opening</name>
+		</location>
+		<location id="id22" x="0" y="0">
+			<name x="-10" y="-34">Closed</name>
+		</location>
+		<init ref="id22"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-255" y="51">toggleDoor[i]?</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-76" y="-59">toggleDoor[i]?</label>
+		</transition>
+	</template>
+	<system>// List one or more processes to be composed into a system.
+system Main_Controller,Door, Waterpump;
+    </system>
+	<queries>
+	</queries>
+</nta>
