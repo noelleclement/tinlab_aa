@@ -14,7 +14,7 @@ int[0,10] waterLevelLeft = 4;
 int[0,10] waterLevelRight = 8;
 int[0,10] waterLevelLockChamber = 3;//Need to check edge case different level
 int[0,10] waterLevelTarget = 0;
-
+int[0,10] waterLevelAtDoor[2];
 
 // for doors
 const int doors = 2;
@@ -40,10 +40,14 @@ void defineDoorOrder(){
     if(servingQueue==0){
         firstDoor=0;
         secondDoor=1;
+        waterLevelAtDoor[0] = waterLevelLeft;
+        waterLevelAtDoor[1] = waterLevelRight;
     }
     else{
        firstDoor=1;
        secondDoor=0;
+       waterLevelAtDoor[0] = waterLevelRight;
+       waterLevelAtDoor[1] = waterLevelLeft;
     }
 }
 
@@ -85,192 +89,203 @@ bool isHigherThanTarget(){
     else {
         return false;
     }
-}</declaration>
+}
+
+// 
+//if(waterlevelockchamber == waterlevelleft &amp;&amp; firstdoor == 0) then boat not in yet, so firstdoor open (for boat to enter) waterleveldoor[firstDoor]
+//if(waterlevelockchamber == waterlevelright &amp;&amp; firstdoor == 1)</declaration>
 	<template>
 		<name x="5" y="5">Main_Controller</name>
 		<declaration>// Place local declarations here.
 
 </declaration>
-		<location id="id0" x="680" y="544">
+		<location id="id0" x="510" y="272">
+			<name x="527" y="230">start_Process</name>
 		</location>
-		<location id="id1" x="340" y="544">
+		<location id="id1" x="680" y="544">
 		</location>
-		<location id="id2" x="510" y="850">
-			<name x="348" y="841">Pumpingincr_done</name>
+		<location id="id2" x="340" y="544">
 		</location>
-		<location id="id3" x="-340" y="187">
-			<name x="-484" y="178">Pumping_decr_done</name>
+		<location id="id3" x="510" y="850">
+			<name x="476" y="867">Pump_idle</name>
+			<committed/>
 		</location>
-		<location id="id4" x="-221" y="0">
-			<name x="-231" y="-34">Boat_arrived</name>
+		<location id="id4" x="-42" y="272">
+			<name x="-52" y="238">Boat_arrived</name>
 		</location>
-		<location id="id5" x="-340" y="306">
-			<name x="-467" y="297">Pumping_decr</name>
+		<location id="id5" x="-221" y="850">
+			<name x="-374" y="833">Seconddoor_closing</name>
 		</location>
-		<location id="id6" x="-340" y="816">
-			<name x="-510" y="807">Pumping_decr_start</name>
+		<location id="id6" x="102" y="850">
+			<name x="42" y="790">Seconddoor_opening</name>
 		</location>
-		<location id="id7" x="68" y="1003">
-			<name x="26" y="969">Rightdoor_closing</name>
+		<location id="id7" x="-221" y="391">
+			<name x="-357" y="365">Seconddoor_closed</name>
 		</location>
-		<location id="id8" x="510" y="1003">
-			<name x="518" y="969">Rightdoor_opening</name>
+		<location id="id8" x="-93" y="850">
+			<name x="-136" y="807">Seconddoor_open</name>
 		</location>
-		<location id="id9" x="-340" y="1003">
-			<name x="-476" y="977">Rightdoor_closed</name>
-		</location>
-		<location id="id10" x="272" y="1003">
-			<name x="212" y="969">Rightdoor_open</name>
-		</location>
-		<location id="id11" x="510" y="748">
+		<location id="id9" x="510" y="748">
 			<name x="391" y="739">Pumping_done</name>
 			<committed/>
 		</location>
-		<location id="id12" x="510" y="365">
-			<name x="340" y="357">Pumping_start</name>
+		<location id="id10" x="510" y="365">
+			<name x="391" y="340">Pumping_start</name>
 		</location>
-		<location id="id13" x="510" y="272">
-			<name x="374" y="263">firstdoor_closed</name>
+		<location id="id11" x="1292" y="365">
+			<name x="1317" y="357">Firstdoor_closed</name>
 		</location>
-		<location id="id14" x="510" y="127">
-			<name x="365" y="119">firstdoor_closing</name>
+		<location id="id12" x="1292" y="850">
+			<name x="1317" y="799">Firstdoor_closing</name>
 		</location>
-		<location id="id15" x="510" y="0">
-			<name x="527" y="-25">firstdoor_open</name>
+		<location id="id13" x="1130" y="850">
+			<name x="1088" y="799">Firstdoor_open</name>
 		</location>
-		<location id="id16" x="306" y="0">
-			<name x="255" y="17">firstdoor_opening</name>
+		<location id="id14" x="926" y="850">
+			<name x="875" y="799">Firstdoor_opening</name>
 		</location>
-		<location id="id17" x="-340" y="0">
-			<name x="-374" y="-34">Wait_for_boat</name>
+		<location id="id15" x="-221" y="272">
+			<name x="-255" y="238">Wait_for_boat</name>
 		</location>
-		<location id="id18" x="-680" y="-68">
-			<name x="-690" y="-102">Initial</name>
+		<location id="id16" x="-586" y="272">
+			<name x="-596" y="238">Initial</name>
 			<committed/>
 		</location>
-		<init ref="id18"/>
+		<init ref="id16"/>
 		<transition>
-			<source ref="id0"/>
-			<target ref="id0"/>
-			<label kind="guard" x="833" y="510">isHigherThanTarget()</label>
-			<label kind="assignment" x="833" y="527">waterLevelLockChamber--</label>
-			<nail x="816" y="476"/>
-			<nail x="816" y="612"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id1"/>
-			<label kind="guard" x="8" y="510">isLowerThanTarget()</label>
-			<label kind="assignment" x="8" y="527">waterLevelLockChamber++</label>
-			<nail x="204" y="476"/>
-			<nail x="204" y="612"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id11"/>
-			<label kind="guard" x="255" y="612">isEqualToTarget()</label>
-		</transition>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id11"/>
-			<label kind="guard" x="654" y="595">isEqualToTarget()</label>
-		</transition>
-		<transition>
-			<source ref="id12"/>
-			<target ref="id0"/>
-			<label kind="guard" x="620" y="408">isHigherThanTarget()</label>
-			<label kind="synchronisation" x="620" y="425">pumpOut!</label>
-		</transition>
-		<transition>
-			<source ref="id12"/>
-			<target ref="id1"/>
-			<label kind="guard" x="280" y="408">isLowerThanTarget()</label>
-			<label kind="synchronisation" x="280" y="425">pumpIn!</label>
-		</transition>
-		<transition>
-			<source ref="id12"/>
-			<target ref="id11"/>
-			<label kind="guard" x="527" y="544">isEqualToTarget()</label>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id8"/>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id2"/>
-			<label kind="synchronisation" x="527" y="782">pumpIdle!</label>
+			<source ref="id7"/>
+			<target ref="id15"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
-			<target ref="id17"/>
+			<target ref="id14"/>
+			<label kind="guard" x="527" y="816">waterLevelLockChamber == waterLevelAtDoor[firstDoor]</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id10"/>
+			<label kind="assignment" x="518" y="306">setWaterLevelTarget(firstDoor)</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="select" x="212" y="272">i:int[0,1]</label>
+			<label kind="assignment" x="187" y="289">servingQueue:=i,
+defineDoorOrder()</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="guard" x="807" y="510">isHigherThanTarget()</label>
+			<label kind="assignment" x="807" y="527">waterLevelLockChamber--</label>
+			<nail x="790" y="476"/>
+			<nail x="790" y="612"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="guard" x="33" y="510">isLowerThanTarget()</label>
+			<label kind="assignment" x="33" y="527">waterLevelLockChamber++</label>
+			<nail x="229" y="476"/>
+			<nail x="229" y="612"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id9"/>
+			<label kind="guard" x="221" y="654">isEqualToTarget()</label>
+			<nail x="340" y="680"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id9"/>
+			<label kind="guard" x="688" y="654">isEqualToTarget()</label>
+			<nail x="680" y="680"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id1"/>
+			<label kind="guard" x="697" y="425">isHigherThanTarget()</label>
+			<label kind="synchronisation" x="697" y="442">pumpOut!</label>
+			<nail x="680" y="425"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id2"/>
+			<label kind="guard" x="204" y="425">isLowerThanTarget()</label>
+			<label kind="synchronisation" x="289" y="442">pumpIn!</label>
+			<nail x="493" y="374"/>
+			<nail x="340" y="425"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="guard" x="518" y="425">isEqualToTarget()</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="guard" x="127" y="816">waterLevelLockChamber == waterLevelAtDoor[secondDoor]</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="527" y="782">pumpIdle!</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
-			<target ref="id3"/>
-			<label kind="synchronisation" x="-323" y="229">pumpIdle!</label>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-297" y="960">closeDoor[secondDoor]!</label>
+			<nail x="-161" y="952"/>
+			<nail x="-271" y="952"/>
 		</transition>
 		<transition>
-			<source ref="id7"/>
-			<target ref="id7"/>
-			<label kind="synchronisation" x="-17" y="1113">closeDoor[secondDoor]!</label>
-			<nail x="127" y="1096"/>
-			<nail x="17" y="1096"/>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="51" y="960">openDoor[secondDoor]!</label>
+			<nail x="161" y="952"/>
+			<nail x="51" y="952"/>
 		</transition>
 		<transition>
-			<source ref="id8"/>
-			<target ref="id8"/>
-			<label kind="synchronisation" x="459" y="1113">openDoor[secondDoor]!</label>
-			<nail x="569" y="1096"/>
-			<nail x="450" y="1096"/>
+			<source ref="id12"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="1232" y="960">closeDoor[firstDoor]!</label>
+			<nail x="1351" y="952"/>
+			<nail x="1241" y="952"/>
 		</transition>
 		<transition>
 			<source ref="id14"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="620" y="127">closeDoor[firstDoor]!</label>
-			<nail x="612" y="204"/>
-			<nail x="612" y="68"/>
+			<label kind="synchronisation" x="867" y="960">openDoor[firstDoor]!</label>
+			<nail x="986" y="952"/>
+			<nail x="875" y="952"/>
 		</transition>
 		<transition>
-			<source ref="id16"/>
-			<target ref="id16"/>
-			<label kind="synchronisation" x="238" y="-127">openDoor[firstDoor]!</label>
-			<nail x="374" y="-102"/>
-			<nail x="238" y="-102"/>
-		</transition>
-		<transition>
-			<source ref="id4"/>
-			<target ref="id16"/>
-			<label kind="select" x="136" y="0">i:int[0,1]</label>
-			<label kind="assignment" x="110" y="17">servingQueue:=i,
-defineDoorOrder()</label>
-		</transition>
-		<transition>
-			<source ref="id17"/>
+			<source ref="id15"/>
 			<target ref="id4"/>
 		</transition>
 		<transition>
-			<source ref="id6"/>
-			<target ref="id5"/>
-			<label kind="synchronisation" x="-323" y="374">pumpOut!</label>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id6"/>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id9"/>
-			<label kind="synchronisation" x="-110" y="1011">isClosed[secondDoor]?</label>
-		</transition>
-		<transition>
-			<source ref="id10"/>
+			<source ref="id5"/>
 			<target ref="id7"/>
+			<label kind="synchronisation" x="-391" y="552">isClosed[secondDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
+			<target ref="id5"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-51" y="858">isOpen[secondDoor]?</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
 			<target ref="id10"/>
-			<label kind="synchronisation" x="323" y="1011">isOpen[secondDoor]?</label>
+			<label kind="assignment" x="1028" y="374">setWaterLevelTarget(secondDoor)</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="1317" y="501">isClosed[firstDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id13"/>
@@ -279,55 +294,46 @@ defineDoorOrder()</label>
 		<transition>
 			<source ref="id14"/>
 			<target ref="id13"/>
-			<label kind="synchronisation" x="527" y="204">isClosed[firstDoor]?</label>
-		</transition>
-		<transition>
-			<source ref="id15"/>
-			<target ref="id14"/>
+			<label kind="synchronisation" x="969" y="850">isOpen[firstDoor]?</label>
 		</transition>
 		<transition>
 			<source ref="id16"/>
 			<target ref="id15"/>
-			<label kind="synchronisation" x="348" y="-25">isOpen[firstDoor]?</label>
-		</transition>
-		<transition>
-			<source ref="id18"/>
-			<target ref="id17"/>
 		</transition>
 	</template>
 	<template>
 		<name>Waterpump</name>
-		<location id="id19" x="68" y="34">
+		<location id="id17" x="68" y="34">
 			<name x="76" y="0">Pump_out</name>
 		</location>
-		<location id="id20" x="-136" y="34">
+		<location id="id18" x="-136" y="34">
 			<name x="-204" y="0">Pump_in</name>
 		</location>
-		<location id="id21" x="-34" y="-34">
+		<location id="id19" x="-34" y="-34">
 			<name x="-42" y="-68">Idle</name>
 		</location>
-		<init ref="id21"/>
+		<init ref="id19"/>
 		<transition>
-			<source ref="id19"/>
-			<target ref="id21"/>
+			<source ref="id17"/>
+			<target ref="id19"/>
 			<label kind="synchronisation" x="-8" y="34">pumpIdle?</label>
 			<nail x="-34" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id20"/>
-			<target ref="id21"/>
+			<source ref="id18"/>
+			<target ref="id19"/>
 			<label kind="synchronisation" x="-119" y="34">pumpIdle?</label>
 			<nail x="-34" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id21"/>
-			<target ref="id19"/>
+			<source ref="id19"/>
+			<target ref="id17"/>
 			<label kind="synchronisation" x="-8" y="-59">pumpOut?</label>
 			<nail x="68" y="-34"/>
 		</transition>
 		<transition>
-			<source ref="id21"/>
-			<target ref="id20"/>
+			<source ref="id19"/>
+			<target ref="id18"/>
 			<label kind="synchronisation" x="-119" y="-59">pumpIn?</label>
 			<nail x="-136" y="-34"/>
 		</transition>
@@ -335,37 +341,37 @@ defineDoorOrder()</label>
 	<template>
 		<name>Door</name>
 		<parameter>id_D i</parameter>
-		<location id="id22" x="-127" y="68">
+		<location id="id20" x="-127" y="68">
 			<name x="-135" y="85">Is_Closing</name>
 		</location>
-		<location id="id23" x="-246" y="0">
+		<location id="id21" x="-246" y="0">
 			<name x="-280" y="17">Opened</name>
 		</location>
-		<location id="id24" x="-127" y="-59">
+		<location id="id22" x="-127" y="-59">
 			<name x="-137" y="-93">is_Opening</name>
 		</location>
-		<location id="id25" x="0" y="0">
+		<location id="id23" x="0" y="0">
 			<name x="-10" y="-34">Closed</name>
 		</location>
-		<init ref="id25"/>
+		<init ref="id23"/>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
+		</transition>
 		<transition>
 			<source ref="id22"/>
-			<target ref="id25"/>
-			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
 		</transition>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id22"/>
-			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
-		</transition>
-		<transition>
-			<source ref="id24"/>
-			<target ref="id23"/>
-			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
-		</transition>
-		<transition>
-			<source ref="id25"/>
-			<target ref="id24"/>
 			<label kind="synchronisation" x="-76" y="-59">openDoor[i]?</label>
 		</transition>
 	</template>
