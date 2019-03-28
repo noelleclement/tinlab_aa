@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>/////////// Global variables /////////////
+
+// Pump
+chan pumpIn;
+chan pumpOut;
+chan pumpIdle;
+
+int[0,10] waterLevelLeft = 4;
+int[0,10] waterLevelRight = 8;
+int[0,10] waterLevelLockChamber = 3;        
+int[0,10] waterLevelTarget = 0;
+int[0,10] waterLevelAtDoor[2];
+
+// Doors
+const int doors = 2;
+typedef int[0, doors-1] id_D;
+int[0, doors-1] firstDoor;
+int[0, doors-1] secondDoor;
+
+chan openDoor[id_D];
+chan closeDoor[id_D];
+chan isOpen[id_D];
+chan isClosed[id_D];
+
+// Boat(s) 
+chan requestForQueue;
+chan requestForPop;
+
+
+// Queues
+int[0,2] servingQueue;
+const int size = 3;
+int tail[size];
+// Left side
+int queue0[size];
+// Right side
+int queue1[size];
+// Lockchamber
+int queue2[size];
+// Global since function cant return array
+int queueToModify[size];
+
+bool isFull(int queueID){
+    return (tail[queueID]==size);
+}
+
+
+// Needs renaming
+int checkQueueSideFull(){
+    if(isFull(0)) return 0;
+    else if(isFull(1)) return 1;
+    else return -1;
+}
+bool isEmpty(int queueID){
+    return (tail[queueID]==0);
+}
+
+// gets the right queue to be modified
+void getQueue(int queueID){
+    if(queueID == 0) queueToModify = queue0;
+    if(queueID == 1) queueToModify = queue1;
+    if(queueID == 2) queueToModify = queue2;
+}
+// Sets the right queue as queue to be modified
+void setQueue(int queueID){
+    if(queueID == 0) queue0 = queueToModify;
+    if(queueID == 1) queue1 = queueToModify;
+    if(queueID == 2) queue2 = queueToModify;
+}
+
+
+void add(int boat, int queueID){
+    getQueue(queueID);
+    if (isEmpty(queueID)){
+        queueToModify[0] = boat;
+        tail[queueID]++;
+    }    
+    else if(!isFull(queueID)) {
+        queueToModify[tail[queueID]] = boat;
+        tail[queueID]++;
+    }
+    setQueue(queueID);
+}
+
+int pop(int queueID){
+    int k = 0;
+    int temp;
+    getQueue(queueID); 
+    temp=queueToModify[0];
+    // If queue is empty
+    if(tail[queueID] &lt;= 0){ 
+        return 0;
+    }
+    else{
+        for(k = 0; k&lt;size-1; k++){
+            queueToModify[k]=queueToModify[k+1];
+        }
+        setQueue(queueID);
+        tail[queueID]--;
+        return(temp);
+    }
+}
+
+
+
+
+///////////// Functions //////////////
+void defineDoorOrder(){
+    waterLevelAtDoor[0] = waterLevelLeft;
+    waterLevelAtDoor[1] = waterLevelRight;
+    if(servingQueue==0){
+        firstDoor=0;
+        secondDoor=1;
+    }
+    else{
+       firstDoor=1;
+       secondDoor=0;
+    }
+}
+
+// Used for setting the waterleveltarget based on whether first or second door needs to be opened
+void setWaterLevelTarget(int i){
+    if(i == 0){
+       waterLevelTarget = waterLevelLeft;
+    }
+    else{
+        waterLevelTarget = waterLevelRight;
+    }
+}
+
+// Compare waterlevel lockchamber with left or right waterlevel and return true if waterlevel in lockchamber is equal to waterleveltarget
+bool isEqualToTarget(){
+    if(waterLevelLockChamber == waterLevelTarget){ 
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+
+// Compare waterlevel lockchamber with left or right waterlevel and return true if waterlevel in lockchamber is lower than waterleveltarget
+bool isLowerThanTarget(){
+    if(waterLevelLockChamber &lt; waterLevelTarget){ 
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+// Compare waterlevel lockchamber with left or right waterlevel and return true if waterlevel in lockchamber is higher than waterleveltarget
+bool isHigherThanTarget(){
+    if(waterLevelLockChamber &gt; waterLevelTarget){ 
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+</declaration>
+	<template>
+		<name x="5" y="5">Main_Controller</name>
+		<declaration>// Place local declarations here.
+int lockChamber = 2;
+</declaration>
+		<location id="id0" x="1292" y="850">
+			<name x="1249" y="807">Boats_enter</name>
+		</location>
+		<location id="id1" x="-221" y="850">
+			<name x="-238" y="807">Empty_chamber</name>
+		</location>
+		<location id="id2" x="510" y="272">
+			<name x="527" y="230">start_Process</name>
+		</location>
+		<location id="id3" x="680" y="544">
+		</location>
+		<location id="id4" x="340" y="544">
+		</location>
+		<location id="id5" x="510" y="850">
+			<name x="476" y="867">Pump_idle</name>
+			<committed/>
+		</location>
+		<location id="id6" x="-68" y="272">
+			<name x="-78" y="238">Queue_full</name>
+		</location>
+		<location id="id7" x="-442" y="850">
+			<name x="-595" y="833">Seconddoor_closing</name>
+		</location>
+		<location id="id8" x="102" y="850">
+			<name x="42" y="790">Seconddoor_opening</name>
+		</location>
+		<location id="id9" x="-442" y="408">
+			<name x="-603" y="399">Seconddoor_closed</name>
+		</location>
+		<location id="id10" x="-93" y="850">
+			<name x="-110" y="807">Seconddoor_open</name>
+		</location>
+		<location id="id11" x="510" y="748">
+			<name x="391" y="756">Pumping_done</name>
+			<committed/>
+		</location>
+		<location id="id12" x="510" y="365">
+			<name x="391" y="340">Pumping_start</name>
+		</location>
+		<location id="id13" x="1462" y="357">
+			<name x="1487" y="349">Firstdoor_closed</name>
+		</location>
+		<location id="id14" x="1462" y="850">
+			<name x="1487" y="799">Firstdoor_closing</name>
+		</location>
+		<location id="id15" x="1130" y="850">
+			<name x="1079" y="807">Firstdoor_open</name>
+		</location>
+		<location id="id16" x="952" y="850">
+			<name x="909" y="807">Firstdoor_opening</name>
+		</location>
+		<location id="id17" x="-442" y="272">
+			<name x="-552" y="238">Wait_for_boat</name>
+		</location>
+		<location id="id18" x="-595" y="272">
+			<name x="-605" y="238">Initial</name>
+			<committed/>
+		</location>
+		<init ref="id18"/>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id17"/>
+			<label kind="select" x="-476" y="161">tempqueue:int[0,1]</label>
+			<label kind="assignment" x="-476" y="178">servingQueue = tempqueue</label>
+			<nail x="-391" y="204"/>
+			<nail x="-476" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="1130" y="952">add(pop(servingQueue),lockChamber)</label>
+			<nail x="1232" y="952"/>
+			<nail x="1351" y="952"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id14"/>
+			<label kind="guard" x="1317" y="824">isFull(lockChamber)</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id0"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-263" y="952">pop(lockChamber)</label>
+			<nail x="-162" y="952"/>
+			<nail x="-264" y="952"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-408" y="816">isEmpty(lockChamber)</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id1"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id17"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id17"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id16"/>
+			<label kind="guard" x="544" y="816">waterLevelLockChamber == waterLevelAtDoor[firstDoor]</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id12"/>
+			<label kind="assignment" x="518" y="306">setWaterLevelTarget(firstDoor)</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="187" y="280">defineDoorOrder()</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="807" y="510">isHigherThanTarget()</label>
+			<label kind="assignment" x="807" y="527">waterLevelLockChamber--</label>
+			<nail x="790" y="476"/>
+			<nail x="790" y="612"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="33" y="510">isLowerThanTarget()</label>
+			<label kind="assignment" x="33" y="527">waterLevelLockChamber++</label>
+			<nail x="229" y="476"/>
+			<nail x="229" y="612"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id11"/>
+			<label kind="guard" x="221" y="654">isEqualToTarget()</label>
+			<label kind="synchronisation" x="374" y="731">pumpIdle!</label>
+			<nail x="340" y="680"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id11"/>
+			<label kind="guard" x="688" y="654">isEqualToTarget()</label>
+			<label kind="synchronisation" x="569" y="731">pumpIdle!</label>
+			<nail x="680" y="680"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id3"/>
+			<label kind="guard" x="697" y="425">isHigherThanTarget()</label>
+			<label kind="synchronisation" x="697" y="442">pumpOut!</label>
+			<nail x="680" y="425"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id4"/>
+			<label kind="guard" x="195" y="416">isLowerThanTarget()</label>
+			<label kind="synchronisation" x="280" y="433">pumpIn!</label>
+			<nail x="493" y="374"/>
+			<nail x="340" y="425"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="guard" x="518" y="425">isEqualToTarget()</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id8"/>
+			<label kind="guard" x="110" y="816">waterLevelLockChamber == waterLevelAtDoor[secondDoor]</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id5"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-518" y="960">closeDoor[secondDoor]!</label>
+			<nail x="-382" y="952"/>
+			<nail x="-492" y="952"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="51" y="960">openDoor[secondDoor]!</label>
+			<nail x="161" y="952"/>
+			<nail x="51" y="952"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="1402" y="952">closeDoor[firstDoor]!</label>
+			<nail x="1521" y="952"/>
+			<nail x="1411" y="952"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="893" y="960">openDoor[firstDoor]!</label>
+			<nail x="1012" y="952"/>
+			<nail x="901" y="952"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-357" y="272">isFull(servingQueue)</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-433" y="586">isClosed[secondDoor]?</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-51" y="858">isOpen[secondDoor]?</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="assignment" x="1028" y="374">setWaterLevelTarget(secondDoor)</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="1317" y="501">isClosed[firstDoor]?</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="986" y="850">isOpen[firstDoor]?</label>
+			<nail x="960" y="850"/>
+		</transition>
+	</template>
+	<template>
+		<name>Boat</name>
+		<declaration>clock x;</declaration>
+		<location id="id19" x="34" y="0">
+			<name x="-8" y="-8">idle</name>
+		</location>
+		<init ref="id19"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="select" x="110" y="-25">j:int[3,10]</label>
+			<label kind="guard" x="110" y="-8">x&gt;=j</label>
+			<label kind="synchronisation" x="110" y="8">requestForQueue!</label>
+			<nail x="102" y="-51"/>
+			<nail x="102" y="59"/>
+		</transition>
+	</template>
+	<template>
+		<name>Request_Handler</name>
+		<location id="id20" x="85" y="144">
+		</location>
+		<location id="id21" x="85" y="68">
+		</location>
+		<location id="id22" x="-238" y="144">
+		</location>
+		<location id="id23" x="0" y="0">
+			<name x="-59" y="-34">open_for_request</name>
+		</location>
+		<init ref="id23"/>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id23"/>
+			<nail x="0" y="144"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id23"/>
+			<nail x="0" y="144"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="assignment" x="93" y="102">pop(0)</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="93" y="17">requestForPop?</label>
+			<nail x="85" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id22"/>
+			<label kind="select" x="-408" y="34">BoatID:int[2,10],
+queueID:int[0,1]</label>
+			<label kind="synchronisation" x="-408" y="8">requestForQueue?</label>
+			<label kind="assignment" x="-408" y="76">add(BoatID, queueID)</label>
+			<nail x="-238" y="0"/>
+		</transition>
+	</template>
+	<template>
+		<name>Waterpump</name>
+		<location id="id24" x="68" y="34">
+			<name x="76" y="0">Pump_out</name>
+		</location>
+		<location id="id25" x="-136" y="34">
+			<name x="-204" y="0">Pump_in</name>
+		</location>
+		<location id="id26" x="-34" y="-34">
+			<name x="-42" y="-68">Idle</name>
+		</location>
+		<init ref="id26"/>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-8" y="34">pumpIdle?</label>
+			<nail x="-34" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-119" y="34">pumpIdle?</label>
+			<nail x="-34" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-8" y="-59">pumpOut?</label>
+			<nail x="68" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-119" y="-59">pumpIn?</label>
+			<nail x="-136" y="-34"/>
+		</transition>
+	</template>
+	<template>
+		<name>Door</name>
+		<parameter>id_D i</parameter>
+		<location id="id27" x="-127" y="68">
+			<name x="-135" y="85">Is_Closing</name>
+		</location>
+		<location id="id28" x="-246" y="0">
+			<name x="-280" y="17">Opened</name>
+		</location>
+		<location id="id29" x="-127" y="-59">
+			<name x="-137" y="-93">is_Opening</name>
+		</location>
+		<location id="id30" x="0" y="0">
+			<name x="-10" y="-34">Closed</name>
+		</location>
+		<init ref="id30"/>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-76" y="-59">openDoor[i]?</label>
+		</transition>
+	</template>
+	<system>// List one or more processes to be composed into a system.
+system Main_Controller, Boat, Request_Handler, Door, Waterpump;
+    </system>
+	<queries>
+	</queries>
+</nta>
