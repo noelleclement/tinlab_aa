@@ -97,6 +97,7 @@ int pop(int queueID){
     else{
         for(k = 0; k&lt;size-1; k++){
             queueToModify[k]=queueToModify[k+1];
+            queueToModify[k+1] = 0;
         }
         setQueue(queueID);
         tail[queueID]--;
