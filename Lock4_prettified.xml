@@ -25,7 +25,7 @@ chan requestForPop[int[0,2]];
 chan requestForTransfer[int[0,1]];        //[0,1] because 2 is lockchamber, and transfer from servingQueue to lockChamber 
 
 // Queues
-chan queueIsFull[int[0,2]];
+chan queueIsTransfered[int[0,2]];
 chan queueIsEmpty[int[0,2]];
 chan checkIfFull[int[0,2]];
 chan checkedQueueIsFull;</declaration>
@@ -179,7 +179,7 @@ bool isHigherThanTarget(){
 		<transition>
 			<source ref="id0"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="1276" y="833">checkIfFull[lockChamber]?</label>
+			<label kind="synchronisation" x="1276" y="833">queueIsTransfered[lockChamber]?</label>
 		</transition>
 		<transition>
 			<source ref="id15"/>
@@ -353,9 +353,8 @@ bool isHigherThanTarget(){
 		<transition>
 			<source ref="id19"/>
 			<target ref="id19"/>
-			<label kind="select" x="110" y="-25">j:int[20,30]</label>
-			<label kind="guard" x="110" y="-8">x&gt;=j</label>
-			<label kind="synchronisation" x="110" y="8">requestForQueue!</label>
+			<label kind="synchronisation" x="110" y="-25">requestForQueue!</label>
+			<label kind="assignment" x="110" y="-42">x:=0</label>
 			<nail x="102" y="-51"/>
 			<nail x="102" y="59"/>
 		</transition>
@@ -520,7 +519,7 @@ pop(queueToPop)</label>
 			<source ref="id21"/>
 			<target ref="id24"/>
 			<label kind="guard" x="765" y="204">isFull(lockChamber)</label>
-			<label kind="synchronisation" x="773" y="221">queueIsFull[lockChamber]!</label>
+			<label kind="synchronisation" x="773" y="221">queueIsTransfered[lockChamber]!</label>
 			<nail x="790" y="306"/>
 			<nail x="-476" y="306"/>
 		</transition>
@@ -541,7 +540,7 @@ pop(queueToPop)</label>
 		<transition>
 			<source ref="id24"/>
 			<target ref="id23"/>
-			<label kind="select" x="-229" y="25">BoatID:int[2,10],
+			<label kind="select" x="-229" y="25">BoatID:int[1,5],
 queueID:int[0,1]</label>
 			<label kind="synchronisation" x="-229" y="59">requestForQueue?</label>
 			<label kind="assignment" x="-229" y="76">queueToAdd:=queueID,
