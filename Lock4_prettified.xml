@@ -26,7 +26,9 @@ chan requestForTransfer[int[0,1]];        //[0,1] because 2 is lockchamber, and 
 
 // Queues
 chan queueIsFull[int[0,2]];
-chan queueIsEmpty[int[0,2]];</declaration>
+chan queueIsEmpty[int[0,2]];
+chan checkIfFull[int[0,2]];
+chan checkedQueueIsFull;</declaration>
 	<template>
 		<name x="5" y="5">Main_Controller</name>
 		<declaration>// Place local declarations here.
@@ -159,6 +161,15 @@ bool isHigherThanTarget(){
 		</location>
 		<init ref="id18"/>
 		<transition>
+			<source ref="id17"/>
+			<target ref="id17"/>
+			<label kind="select" x="-475" y="110">i:int[0,1]</label>
+			<label kind="synchronisation" x="-484" y="127">checkIfFull[i]!</label>
+			<label kind="assignment" x="-492" y="144">servingQueue:=i</label>
+			<nail x="-391" y="170"/>
+			<nail x="-484" y="170"/>
+		</transition>
+		<transition>
 			<source ref="id0"/>
 			<target ref="id0"/>
 			<label kind="synchronisation" x="1130" y="960">requestForTransfer[servingQueue]!</label>
@@ -168,7 +179,7 @@ bool isHigherThanTarget(){
 		<transition>
 			<source ref="id0"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="1276" y="833">queueIsFull[lockChamber]?</label>
+			<label kind="synchronisation" x="1276" y="833">checkIfFull[lockChamber]?</label>
 		</transition>
 		<transition>
 			<source ref="id15"/>
@@ -303,9 +314,7 @@ bool isHigherThanTarget(){
 		<transition>
 			<source ref="id17"/>
 			<target ref="id6"/>
-			<label kind="select" x="-340" y="280">i:int[0,1]</label>
-			<label kind="synchronisation" x="-348" y="297">queueIsFull[i]?</label>
-			<label kind="assignment" x="-348" y="314">servingQueue:=i</label>
+			<label kind="synchronisation" x="-348" y="280">checkedQueueIsFull?</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
@@ -344,7 +353,7 @@ bool isHigherThanTarget(){
 		<transition>
 			<source ref="id19"/>
 			<target ref="id19"/>
-			<label kind="select" x="110" y="-25">j:int[3,10]</label>
+			<label kind="select" x="110" y="-25">j:int[20,30]</label>
 			<label kind="guard" x="110" y="-8">x&gt;=j</label>
 			<label kind="synchronisation" x="110" y="8">requestForQueue!</label>
 			<nail x="102" y="-51"/>
@@ -355,6 +364,7 @@ bool isHigherThanTarget(){
 		<name>Request_Handler</name>
 		<declaration>int[0,2] queueToPop;
 int[0,2] queueToAdd;
+int[0,2] queueToCheck;
 
 
 
@@ -438,96 +448,99 @@ int pop(int queueID){
 
 
 </declaration>
-		<location id="id20" x="714" y="170">
+		<location id="id20" x="-671" y="170">
 		</location>
-		<location id="id21" x="714" y="68">
-			<committed/>
+		<location id="id21" x="714" y="170">
 		</location>
 		<location id="id22" x="221" y="170">
 		</location>
-		<location id="id23" x="221" y="68">
+		<location id="id23" x="-238" y="170">
 			<committed/>
 		</location>
-		<location id="id24" x="-238" y="170">
-		</location>
-		<location id="id25" x="-476" y="0">
+		<location id="id24" x="-476" y="0">
 			<name x="-535" y="-34">open_for_request</name>
 		</location>
-		<init ref="id25"/>
+		<init ref="id24"/>
 		<transition>
-			<source ref="id22"/>
-			<target ref="id25"/>
-			<label kind="guard" x="255" y="195">isEmpty(queueToPop)</label>
-			<label kind="synchronisation" x="263" y="212">queueIsEmpty[queueToPop]!</label>
-			<nail x="306" y="306"/>
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<nail x="-238" y="306"/>
 			<nail x="-476" y="306"/>
 		</transition>
 		<transition>
 			<source ref="id20"/>
-			<target ref="id25"/>
-			<label kind="guard" x="765" y="204">isFull(lockChamber)</label>
-			<label kind="synchronisation" x="773" y="221">queueIsFull[lockChamber]!</label>
-			<nail x="816" y="306"/>
+			<target ref="id24"/>
+			<label kind="guard" x="-646" y="187">isFull(queueToCheck)</label>
+			<label kind="synchronisation" x="-637" y="204">checkedQueueIsFull!</label>
+			<nail x="-595" y="306"/>
+			<nail x="-476" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id24"/>
+			<label kind="guard" x="-858" y="187">!isFull(queueToCheck)</label>
+			<nail x="-739" y="306"/>
 			<nail x="-476" y="306"/>
 		</transition>
 		<transition>
 			<source ref="id24"/>
-			<target ref="id25"/>
-			<label kind="guard" x="-195" y="204">isFull(queueToAdd)</label>
-			<label kind="synchronisation" x="-187" y="221">queueIsFull[queueToAdd]!</label>
-			<nail x="-153" y="306"/>
+			<target ref="id20"/>
+			<label kind="select" x="-663" y="25">i:int[0,2]</label>
+			<label kind="synchronisation" x="-663" y="42">checkIfFull[i]?</label>
+			<label kind="assignment" x="-663" y="59">queueToCheck:=i</label>
+			<nail x="-671" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id21"/>
+			<label kind="select" x="722" y="25">i:int[0,1]</label>
+			<label kind="synchronisation" x="722" y="42">requestForTransfer[i]?</label>
+			<label kind="assignment" x="722" y="59">queueToPop:=i,
+add(pop(queueToPop), lockChamber)</label>
+			<nail x="714" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id22"/>
+			<label kind="select" x="229" y="25">i:int[0,2]</label>
+			<label kind="synchronisation" x="229" y="42">requestForPop[i]?</label>
+			<label kind="assignment" x="229" y="59">queueToPop:=i,
+pop(queueToPop)</label>
+			<nail x="221" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id24"/>
+			<label kind="guard" x="255" y="195">isEmpty(queueToPop)</label>
+			<label kind="synchronisation" x="263" y="212">queueIsEmpty[queueToPop]!</label>
+			<nail x="297" y="306"/>
 			<nail x="-476" y="306"/>
 		</transition>
 		<transition>
-			<source ref="id20"/>
-			<target ref="id25"/>
+			<source ref="id21"/>
+			<target ref="id24"/>
+			<label kind="guard" x="765" y="204">isFull(lockChamber)</label>
+			<label kind="synchronisation" x="773" y="221">queueIsFull[lockChamber]!</label>
+			<nail x="790" y="306"/>
+			<nail x="-476" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id24"/>
 			<label kind="guard" x="527" y="212">!isFull(lockChamber)</label>
 			<nail x="629" y="306"/>
 			<nail x="-476" y="306"/>
 		</transition>
 		<transition>
-			<source ref="id21"/>
-			<target ref="id20"/>
-			<label kind="assignment" x="731" y="119">add(pop(queueToPop), lockChamber)</label>
-		</transition>
-		<transition>
-			<source ref="id25"/>
-			<target ref="id21"/>
-			<label kind="select" x="731" y="0">i:int[0,1]</label>
-			<label kind="synchronisation" x="731" y="17">requestForTransfer[i]?</label>
-			<label kind="assignment" x="731" y="34">queueToPop:=i</label>
-			<nail x="714" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id24"/>
-			<target ref="id25"/>
-			<label kind="guard" x="-425" y="212">!isFull(queueToAdd)</label>
-			<nail x="-314" y="306"/>
-			<nail x="-476" y="306"/>
-		</transition>
-		<transition>
 			<source ref="id22"/>
-			<target ref="id25"/>
+			<target ref="id24"/>
 			<label kind="guard" x="25" y="204">!isEmpty(queueToPop)</label>
 			<nail x="136" y="306"/>
 			<nail x="-476" y="306"/>
 		</transition>
 		<transition>
-			<source ref="id23"/>
-			<target ref="id22"/>
-			<label kind="assignment" x="229" y="102">pop(queueToPop)</label>
-		</transition>
-		<transition>
-			<source ref="id25"/>
+			<source ref="id24"/>
 			<target ref="id23"/>
-			<label kind="select" x="229" y="0">i:int[0,2]</label>
-			<label kind="synchronisation" x="230" y="17">requestForPop[i]?</label>
-			<label kind="assignment" x="230" y="34">queueToPop:=i</label>
-			<nail x="221" y="0"/>
-		</transition>
-		<transition>
-			<source ref="id25"/>
-			<target ref="id24"/>
 			<label kind="select" x="-229" y="25">BoatID:int[2,10],
 queueID:int[0,1]</label>
 			<label kind="synchronisation" x="-229" y="59">requestForQueue?</label>
@@ -538,37 +551,37 @@ add(BoatID, queueToAdd)</label>
 	</template>
 	<template>
 		<name>Waterpump</name>
-		<location id="id26" x="68" y="34">
+		<location id="id25" x="68" y="34">
 			<name x="76" y="0">Pump_out</name>
 		</location>
-		<location id="id27" x="-136" y="34">
+		<location id="id26" x="-136" y="34">
 			<name x="-204" y="0">Pump_in</name>
 		</location>
-		<location id="id28" x="-34" y="-34">
+		<location id="id27" x="-34" y="-34">
 			<name x="-42" y="-68">Idle</name>
 		</location>
-		<init ref="id28"/>
+		<init ref="id27"/>
 		<transition>
-			<source ref="id26"/>
-			<target ref="id28"/>
+			<source ref="id25"/>
+			<target ref="id27"/>
 			<label kind="synchronisation" x="-8" y="34">pumpIdle?</label>
 			<nail x="-34" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id27"/>
-			<target ref="id28"/>
+			<source ref="id26"/>
+			<target ref="id27"/>
 			<label kind="synchronisation" x="-119" y="34">pumpIdle?</label>
 			<nail x="-34" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id28"/>
-			<target ref="id26"/>
+			<source ref="id27"/>
+			<target ref="id25"/>
 			<label kind="synchronisation" x="-8" y="-59">pumpOut?</label>
 			<nail x="68" y="-34"/>
 		</transition>
 		<transition>
-			<source ref="id28"/>
-			<target ref="id27"/>
+			<source ref="id27"/>
+			<target ref="id26"/>
 			<label kind="synchronisation" x="-119" y="-59">pumpIn?</label>
 			<nail x="-136" y="-34"/>
 		</transition>
@@ -576,37 +589,37 @@ add(BoatID, queueToAdd)</label>
 	<template>
 		<name>Door</name>
 		<parameter>id_D i</parameter>
-		<location id="id29" x="-127" y="68">
+		<location id="id28" x="-127" y="68">
 			<name x="-135" y="85">Is_Closing</name>
 		</location>
-		<location id="id30" x="-246" y="0">
+		<location id="id29" x="-246" y="0">
 			<name x="-280" y="17">Opened</name>
 		</location>
-		<location id="id31" x="-127" y="-59">
+		<location id="id30" x="-127" y="-59">
 			<name x="-137" y="-93">is_Opening</name>
 		</location>
-		<location id="id32" x="0" y="0">
+		<location id="id31" x="0" y="0">
 			<name x="-10" y="-34">Closed</name>
 		</location>
-		<init ref="id32"/>
+		<init ref="id31"/>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id31"/>
+			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
+		</transition>
 		<transition>
 			<source ref="id29"/>
-			<target ref="id32"/>
-			<label kind="synchronisation" x="-68" y="42">isClosed[i]!</label>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
 		</transition>
 		<transition>
 			<source ref="id30"/>
 			<target ref="id29"/>
-			<label kind="synchronisation" x="-255" y="51">closeDoor[i]?</label>
+			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
 		</transition>
 		<transition>
 			<source ref="id31"/>
 			<target ref="id30"/>
-			<label kind="synchronisation" x="-238" y="-59">isOpen[i]!</label>
-		</transition>
-		<transition>
-			<source ref="id32"/>
-			<target ref="id31"/>
 			<label kind="synchronisation" x="-76" y="-59">openDoor[i]?</label>
 		</transition>
 	</template>
