@@ -111,6 +111,7 @@ bool isHigherThanTarget(){
     }
 }</declaration>
 		<location id="id0" x="-748" y="331">
+			<name x="-867" y="314">Process_done</name>
 		</location>
 		<location id="id1" x="-544" y="1190">
 			<name x="-731" y="1156">SecondD_ready_for_closing</name>
@@ -597,7 +598,7 @@ pop(queueToPop)</label>
 		<transition>
 			<source ref="id28"/>
 			<target ref="id27"/>
-			<label kind="select" x="-229" y="25">BoatID:int[1,5],
+			<label kind="select" x="-229" y="25">BoatID:int[0,1],
 queueID:int[0,1]</label>
 			<label kind="synchronisation" x="-229" y="59">requestForQueue?</label>
 			<label kind="assignment" x="-229" y="76">queueToAdd:=queueID,
@@ -607,113 +608,113 @@ add(BoatID, queueToAdd)</label>
 	</template>
 	<template>
 		<name>Signal</name>
-		<location id="id29" x="646" y="-102">
-			<name x="663" y="-110">Waterlevel_changing</name>
+		<location id="id29" x="646" y="-68">
+			<name x="663" y="-93">Waterlevel_changing</name>
 		</location>
-		<location id="id30" x="374" y="-102">
-			<name x="391" y="-144">Door_closed</name>
+		<location id="id30" x="374" y="-68">
+			<name x="391" y="-93">Door_closed</name>
 		</location>
-		<location id="id31" x="102" y="-102">
-			<name x="119" y="-144">Door_closing</name>
+		<location id="id31" x="102" y="-68">
+			<name x="110" y="-93">Door_closing</name>
 		</location>
-		<location id="id32" x="-170" y="-102">
-			<name x="-153" y="-136">Door_opened</name>
+		<location id="id32" x="-170" y="-68">
+			<name x="-153" y="-93">Door_opened</name>
 		</location>
-		<location id="id33" x="-442" y="-102">
-			<name x="-425" y="-136">Door_opening</name>
+		<location id="id33" x="-442" y="-68">
+			<name x="-425" y="-93">Door_opening</name>
 		</location>
-		<location id="id34" x="-604" y="-102">
-			<name x="-586" y="-110">No_signal</name>
+		<location id="id34" x="-612" y="-102">
+			<name x="-594" y="-110">No_signal</name>
 		</location>
 		<init ref="id34"/>
 		<transition>
 			<source ref="id32"/>
 			<target ref="id31"/>
-			<label kind="synchronisation" x="-152" y="-119">changeSignal[doorClosing]?</label>
+			<label kind="synchronisation" x="-136" y="-68">changeSignal[doorClosing]?</label>
 		</transition>
 		<transition>
 			<source ref="id31"/>
 			<target ref="id30"/>
-			<label kind="synchronisation" x="119" y="-127">changeSignal[doorClosed]?</label>
+			<label kind="synchronisation" x="136" y="-68">changeSignal[doorClosed]?</label>
 		</transition>
 		<transition>
 			<source ref="id30"/>
 			<target ref="id29"/>
-			<label kind="synchronisation" x="391" y="-127">changeSignal[waterLevelChanging]?</label>
+			<label kind="synchronisation" x="391" y="-68">changeSignal[waterLevelChanging]?</label>
 		</transition>
 		<transition>
 			<source ref="id33"/>
 			<target ref="id32"/>
-			<label kind="synchronisation" x="-424" y="-119">changeSignal[doorOpened]?</label>
+			<label kind="synchronisation" x="-416" y="-68">changeSignal[doorOpened]?</label>
 		</transition>
 		<transition>
 			<source ref="id29"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="654" y="-59">changeSignal[noSignal]?</label>
-			<nail x="646" y="-34"/>
-			<nail x="-604" y="-34"/>
+			<label kind="synchronisation" x="654" y="9">changeSignal[noSignal]?</label>
+			<nail x="646" y="34"/>
+			<nail x="-612" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id30"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="382" y="-59">changeSignal[noSignal]?</label>
-			<nail x="374" y="-34"/>
-			<nail x="-604" y="-34"/>
+			<label kind="synchronisation" x="382" y="9">changeSignal[noSignal]?</label>
+			<nail x="374" y="34"/>
+			<nail x="-612" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id31"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="110" y="-59">changeSignal[noSignal]?</label>
-			<nail x="102" y="-34"/>
-			<nail x="-604" y="-34"/>
+			<label kind="synchronisation" x="110" y="9">changeSignal[noSignal]?</label>
+			<nail x="102" y="34"/>
+			<nail x="-612" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id32"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="-161" y="-59">changeSignal[noSignal]?</label>
-			<nail x="-170" y="-34"/>
-			<nail x="-604" y="-34"/>
+			<label kind="synchronisation" x="-161" y="9">changeSignal[noSignal]?</label>
+			<nail x="-170" y="34"/>
+			<nail x="-612" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id33"/>
 			<target ref="id34"/>
-			<label kind="synchronisation" x="-433" y="-59">changeSignal[noSignal]?</label>
-			<nail x="-442" y="-34"/>
-			<nail x="-604" y="-34"/>
+			<label kind="synchronisation" x="-433" y="9">changeSignal[noSignal]?</label>
+			<nail x="-442" y="34"/>
+			<nail x="-612" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id29"/>
 			<label kind="synchronisation" x="654" y="-161">changeSignal[waterLevelChanging]?</label>
-			<nail x="-604" y="-170"/>
+			<nail x="-612" y="-170"/>
 			<nail x="646" y="-170"/>
 		</transition>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id30"/>
-			<label kind="synchronisation" x="391" y="-161">changeSignal[doorClosed]?</label>
-			<nail x="-604" y="-170"/>
+			<label kind="synchronisation" x="382" y="-153">changeSignal[doorClosed]?</label>
+			<nail x="-612" y="-170"/>
 			<nail x="374" y="-170"/>
 		</transition>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id31"/>
-			<label kind="synchronisation" x="119" y="-161">changeSignal[doorClosing]?</label>
-			<nail x="-604" y="-170"/>
+			<label kind="synchronisation" x="110" y="-153">changeSignal[doorClosing]?</label>
+			<nail x="-612" y="-170"/>
 			<nail x="102" y="-170"/>
 		</transition>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id32"/>
-			<label kind="synchronisation" x="-153" y="-153">changeSignal[doorOpened]?</label>
-			<nail x="-604" y="-170"/>
+			<label kind="synchronisation" x="-161" y="-153">changeSignal[doorOpened]?</label>
+			<nail x="-612" y="-170"/>
 			<nail x="-170" y="-170"/>
 		</transition>
 		<transition>
 			<source ref="id34"/>
 			<target ref="id33"/>
-			<label kind="synchronisation" x="-425" y="-153">changeSignal[doorOpening]?</label>
-			<nail x="-604" y="-170"/>
+			<label kind="synchronisation" x="-433" y="-153">changeSignal[doorOpening]?</label>
+			<nail x="-612" y="-170"/>
 			<nail x="-442" y="-170"/>
 		</transition>
 	</template>
@@ -795,5 +796,11 @@ add(BoatID, queueToAdd)</label>
 system Main_Controller, Boat, Request_Handler, Door, Waterpump, Signal;
     </system>
 	<queries>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
 	</queries>
 </nta>
