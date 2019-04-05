@@ -117,6 +117,7 @@ bool isHigherThanTarget(){
 			<name x="-731" y="1156">SecondD_ready_for_closing</name>
 		</location>
 		<location id="id2" x="510" y="272">
+			<name x="442" y="263">Ready</name>
 		</location>
 		<location id="id3" x="1632" y="1190">
 			<name x="1657" y="1181">FirstD_ready_for_closing</name>
@@ -290,7 +291,7 @@ waterLevelAtDoor[secondDoor]</label>
 		<transition>
 			<source ref="id10"/>
 			<target ref="id6"/>
-			<label kind="assignment" x="187" y="280">defineDoorOrder()</label>
+			<label kind="assignment" x="68" y="178">defineDoorOrder()</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
@@ -311,14 +312,14 @@ waterLevelAtDoor[secondDoor]</label>
 		<transition>
 			<source ref="id8"/>
 			<target ref="id15"/>
-			<label kind="guard" x="221" y="654">isEqualToTarget()</label>
+			<label kind="guard" x="212" y="663">isEqualToTarget()</label>
 			<label kind="synchronisation" x="374" y="731">pumpIdle!</label>
 			<nail x="340" y="680"/>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id15"/>
-			<label kind="guard" x="688" y="654">isEqualToTarget()</label>
+			<label kind="guard" x="688" y="663">isEqualToTarget()</label>
 			<label kind="synchronisation" x="569" y="731">pumpIdle!</label>
 			<nail x="680" y="680"/>
 		</transition>
