@@ -49,7 +49,7 @@ int[0,10] waterLevelLockChamber = 3;
 int[0,10] waterLevelTarget = 0;
 int[0,10] waterLevelAtDoor[2];
 
-int[0,2] servingQueue;
+int[0,1] servingQueue;
 
 
 
@@ -131,8 +131,10 @@ bool isHigherThanTarget(){
 			<name x="527" y="128">start_Process</name>
 		</location>
 		<location id="id7" x="680" y="544">
+			<name x="595" y="501">Pump_out</name>
 		</location>
 		<location id="id8" x="340" y="544">
+			<name x="348" y="501">Pump_in</name>
 		</location>
 		<location id="id9" x="510" y="850">
 			<name x="484" y="875">Pump_idle</name>
@@ -797,7 +799,7 @@ system Main_Controller, Boat, Request_Handler, Door, Waterpump, Signal;
     </system>
 	<queries>
 		<query>
-			<formula>A[] not deadlock
+			<formula>A[](Door(0).Opened || Door(1).Opened || Door(0).Closed  || Door(1).Closed)
 			</formula>
 			<comment>
 			</comment>
