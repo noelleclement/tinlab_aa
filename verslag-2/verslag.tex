@@ -1,0 +1,408 @@
+\documentclass{article}
+\usepackage{graphicx} 
+\usepackage{enumitem}   % roman numbers
+\usepackage[T1]{fontenc}    % ||
+
+
+\begin{document}
+\sffamily
+\begin{titlepage}
+  \centering
+    \vfill
+    {\bfseries\Huge
+      Report Tinlab Advanced Algorithms \\
+        \vskip2cm
+      }
+      {\bfseries\Large
+        No{\"e}lle Clement (0935050) \\
+        \& \\
+        Tommie Terhoeve (0926280)\\
+      }
+      {
+        \bfseries\normalsize
+        \vskip 1cm
+        \today\\
+    }    
+    \vfill
+    \includegraphics[width=4cm]{logohr.png} % also works with logo.pdf
+    \vfill
+    \vfill
+\end{titlepage}
+\newpage
+\tableofcontents
+
+\newpage
+\section{Introduction}
+    This report serves as additional information and justification for the model developed for the Advanced Algorithms course. \\\\
+    The assignment states that students need to model a fully automated water lock. The assignment description is provided in appendix I in Dutch. The given model represents our vision of this. Further information on the specifics will be provided in the following chapters, including the choices that led to our final model. Finally, the model has been verified in Uppaal to check whether our model fulfills the specified requirements. \\\\
+    For the scope of our assignment certain components or aspects haven't been included. Where required, additional information is provided. 
+
+\newpage
+
+\section{Requirements}
+    In the following chapter the requirements and specifications for our model are specified. Additionally, reasonings on both are provided. \\
+    The main source used to define the requirements is the given assignment description. Additionally where required, we have used scientific resources. Sometimes we have even used our professional knowledge and common sense. \\\\
+    As stated in the assignment description, we're not taking unexpected circumstances into account in our model. We have however made some exemplary non-functional requirements, of which we have implemented some in the model too.  
+    
+    \subsection{Requirements}
+        %functional req's
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{|c|p{10cm}|}
+                \hline
+              \textbf{\#} & \textbf{Requirement} \\
+              \hline
+              1. & A boat can move from one side of the lock to the other (both directions) \\
+              \hline
+              2. & The lock works fully automated \\
+              \hline
+              3. & The water level in the lock chamber can change (increased/decreased) \\
+              \hline
+              4. & There are two boat-queues, one for each side of the lock \\
+              \hline
+              5. & Multiple boats can enter the lock (chamber) \\
+              \hline
+              6. & Both sides of the lock have a door, which can be opened and closed \\
+              \hline
+              7. & Signals are given to the outside world \\
+                 & \textit{7.1 Door is opening} \\
+                 & \textit{7.2 Door is open} \\
+                 & \textit{7.3 Door is closing} \\
+                 & \textit{7.4 Door is closed} \\
+                 & \textit{7.5 Water level is changing} \\
+              \hline
+              8. & Entrance to and departure from the lock may take maximum one hour (including opening and closing of doors) \\
+              \hline
+            \end{tabular}
+            \caption{Functional requirements}
+            \label{tab:func_req}
+        \end{table}
+        
+        
+        %non-func req's
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{|c|p{10cm}|}
+                \hline
+                \textbf{\#} & \textbf{Requirement} \\
+                \hline
+                9. & Both lock doors cannot be open at the same time \\ 
+                \hline
+                10. & The water level may not change while a lock door is open \\
+                \hline
+                11. & Both doors may not close while a boat should be entering or departing the lock chamber \\
+                \hline
+                12. & The lock chamber may not flood or be pumped until fully empty \\
+                \hline
+                13. & The lock doors are closed when the lock isn't in use \\
+                \hline
+            \end{tabular}
+            \caption{Non-functional requirements: Safety}
+            \label{tab:safety_req}
+        \end{table}
+        
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{|c|p{10cm}|}
+                \hline
+                \textbf{\#} & \textbf{Requirement} \\
+                \hline
+                14. & The lock has more than 1 water level sensor  \\ 
+                \hline
+                15. & Both lock doors open and close successfully 95\% of the time \\
+                \hline
+            \end{tabular}
+            \caption{Non-functional requirements: Reliability}
+            \label{tab:reliable_req}
+        \end{table}
+    
+\newpage %bc of tableshiz
+        
+    \subsection{Considerations} %underlying reasonings
+        
+        \subsubsection{Functional requirements}
+        %wat prescribed, wat gedeeltelijk, waarom anders?
+        During our lectures the teacher prescribed certain features of the to-be-modelled lock. Some of these have been described in the written assignment, however, some haven't. We have still included those in the list of prescribed requirements, since it was clear that these needed to be included. See Appendix I for an overview of these prescribed requirements.\\\\
+        As shown in Appendix I, a few requirements have been partially or more extensively implemented than prescribed. Below is described how these differ from prescribed, and why they have been implemented in this way.
+        
+        \begin{itemize}
+            \item[1.]  A core functionality of a lock is that a boat needs to be able to move from one side to another. In our model we wanted the boat to be being able to move in both directions.
+            \item[4.] Since the boats are able to move through the lock from both sides, queues need to be implemented for both sides.
+            \item[5.] A minimum of one boat needs to be able to enter the lock (chamber). We added the ability to have multiple boats in the lock chamber, to have added reality.  
+        \end{itemize}
+        
+        \subsubsection{Non-functional requirements}
+        As stated before, we chose to focus on the functional requirements in the model. However, we wanted to describe and (where possible) implement some non-functional requirements. We chose to focus on the quality attributes 'safety' and 'reliability'. 
+        
+       \subsection{Specifications}
+        For this assignment we are focusing on the required components for the model. Hence, we won't specify the technical components (the specifications) of the to-be-developed lock. For more information on the components, see section~\ref{subsec:modelcomp}: 'Modelled components'.  
+        
+
+
+\newpage
+\section{The Model}
+The file with our model is included with this report as Appendix IV. The model has been made in Uppaal, an application with which one can create 'labeled timed state transition diagrams'. Below a description is given of the modelled components, the operation of the model, our considerations. Finally a comparison with the model criteria of Vaandrager is made. 
+
+    %TODO koppeling specifications
+    \subsection{Modeled components} \label{subsec:modelcomp}
+        For our model we have modelled the following components:
+        \begin{itemize}
+            \item main controller
+            \item request handler
+            \item water-pump
+            \item a pair of doors
+            \item signals
+            \item a simple boat
+        \end{itemize}
+        
+        \subsubsection{Main controller}
+            The main controller is the central controlling unit of the system, hence the name. The main controller waits for input from the request handler to start the process of moving the boats from one side to the other.
+        \subsubsection{Request handler}
+            The request handler handles the requests and modifies the three queues in the water lock. The three queues are defined as follows:
+            \begin{itemize}
+                \item Queue for the boats waiting on the left side of the lock.
+                \item Queue for the boats currently in the lock chamber.
+                \item Queue for the boats waiting on the right side of the lock.
+            \end{itemize}
+        \subsubsection{Water-pump}
+            The water pump is a simple component that has two main functions: To pump water into the lock and to pump water out of the lock. 
+        \subsubsection{Doors}
+            The doors are identical and serve to regulate the water level in the lock chamber. 
+        \subsubsection{Signals}
+            The signals provide information to the crew on the boats about the state of the water lock.
+        \subsubsection{A simple boat}
+            The boat's only purpose is to request to be added to a queue. This request will be handled by the request handler.
+    
+    %TODO koppeling functionele requirements (processen)
+    \subsection{Operation of the model}
+        To explain the full process of our modelled system we have provided a detailed description. \\
+        The scenario is as follows: The queue at the left side of the lock is full and the water level in the lock chamber is higher than the water level at the left side of the lock. Note: the lock works in both directions, the scenario provided below is for explanatory reasons.
+        \begin{enumerate}
+            \item The main controller waits for either the left or right queue to be full. Meanwhile the boat will keep sending requests to the request handler which fills up either one of the queues.
+            \item The left queue is full, the main controller defines the left door as the first door to be opened and the right door as the last door to be opened.
+            \item The main controller checks the water level and detects that the water level in the lock chamber is too high.
+            \item The main controller turns the pump on and pumps out water until the water level in the lock chamber is equal to the water level left of the lock.
+            \item The signal signals that the left door is opening.
+            \item The main controller opens the left door. 
+            \item When the left door is fully open the signal will signal that the left door has fully opened and that it is safe to enter the lock chamber.
+            \item The main controller transfers the left side queue to the queue inside the lock chamber.
+            \item The main controller closes the left door.
+            \item The signal signals that the left door will be closing.
+            \item The signal signals that the left door is fully closed when the door is fully closed.
+            \item The signal signals that the water level will be changing.
+            \item The main controller compares the water level in the lock chamber with the water level at the right side of the lock.
+            \item The signal signals that the water level will be changing.
+            \item The main controller turns the pump on to pump in water mode until the water level in the lock chamber is equal to the right side of the lock.
+            \item The signal signals that the right door will open.
+            \item The main controller opens the right door to open.
+            \item When the right door is fully open the signal will signal that the right door has fully opened and that it is safe to exit the lock chamber.
+            \item The main controller empties the queue in the lock chamber.
+            \item The signal signals that the right door will close.
+            \item The main controller closes the right door.
+            \item The signal signals that the right door has fully closed.
+            \item The signal turns off.
+        \end{enumerate}
+        
+        
+        
+    \subsection{Considerations} %welke ontwerpkeuzes, waarom, consequenties
+        See Appendix I for an overview of all the implemented requirements. Our considerations will focus on choices made during the design process of the model.\\\\
+        To keep our model organized and easily readable we decided to make a separate template for each component. This also allows us to easily expand our model in the future. A possible disadvantage of this is that one is not able to verify whether two components are simultaneously in a certain state. We experienced this during the verification process.  \\\\
+        To simulate the three queues of our water lock we used integer arrays with a capacity of 3 integers. This allows us to use unique boat ID's in the future if necessary, even if we do not use those at the moment (to prevent added complexity). Using arrays instead of a simple integer counter also means that debugging is easier. Because we do not use unique boat ID's at the moment, some things are not verifiable with our current model, such as verifying that a particular boat successfully passes through the lock. \\\\
+        We decided to not implement water level sensors in our model to prevent the model from becoming too complex. Instead we let the main controller check and regulate the water level by switching on and off the water pump. However, the model has been designed in such a way that makes it possible to implement this expansion easily. \\\\
+        For the signaling system we decided to not go too much in-depth since it is irrelevant for this version of our model. For example we decided to make use of one signaling system for both directions. We also modeled the type of signal that will be displayed, not the actual (electrical) signal itself. 
+
+        
+    \subsection{Modelcriteria} %Vaandrager
+        To validate the quality our model we checked if our model meets the criteria made by Frits Vaandrager \cite{Vaandrager}. Please note, that the following statements reflect our opinions. 
+        
+        \subsubsection{Criteria I}
+            \textit{"A good model has a clearly specified object of modelling, that is, it is clear what thing the model describes. The object of modelling can be (a part of) an existing artefact or physical system, but it may also be a document that informally specifies a system or class of systems (for instance a protocol standard)..."} \\\\
+            Our model meets this criteria since the model clearly models an automated water lock.
+        
+        \subsubsection{Criteria II}
+            \textit{"A good model has a clearly specified purpose and (ideally) contributes to the realization of that purpose..."} \\\\
+            Our model meets this criteria since it can be used to verify the logic behind our water lock system.
+         
+        \subsubsection{Criteria III}
+            \textit{"A good model is traceable: each structural element of a model either (1) corresponds to an aspect of the object of modelling, or (2) encodes some implicit domain knowledge, or (3) encodes some additional assumption..."} \\\\
+            Our model meets this criteria since every structural element represents a component of  the water lock.
+         
+         \subsubsection{Criteria IV}
+            \textit{"A good model is truthful: relevant properties of the model should also carry over to (hold for) the object of modelling..."}\\\\
+            Our model meets this criteria since it's an accurate representation of a real water lock.
+         
+         \subsubsection{Criteria V}
+            \textit{"A good model is simple (but not too simple)..."} \\\\
+            Our model meets this criteria since it's simple enough to be easily readable, but detailed enough to be verified properly.
+         
+         \subsubsection{Criteria VI}
+            \textit{"A good model is extensible and reusable, that is, it has been designed to evolve and be used beyond its original purpose..."}\\\\
+            Our model meets this criteria since it's modular and more components can be easily added.
+         
+         \subsubsection{Criteria VII}
+            \textit{"A good model has been designed and encoded for interoperability and sharing of semantics."}\\\\
+            Our model does not meet this criteria since it can't be linked to any other models.
+         
+
+
+\newpage
+\section{Verification}
+    %verificatie req's model in Uppaal
+    To verify the logic behind the various components of our model we used CTL* and Uppaal. We observed that some components were theoretically impossible to verify in our current model. In this chapter we will go over these components and elaborate on the verification results.
+    
+    %niet alles verified, want niet alles geimplementeerd of niet mogelijk, of niet te verifieren
+    \subsection{Verified components \& results} 
+    \begin{table}[h]
+            \centering
+            \begin{tabular}{|c|p{8cm}|p{2cm}|}
+                \hline
+              \textbf{Req.\#}  & \textbf{CTL Uppaal} & \textbf{Results}\\
+              \hline
+              1.1& A[](Main\_Controller.servingQueue==0 imply  Main\_Controller.Process\_done  & not satisfied\\
+              \hline
+              1.2 & A[](Main\_Controller.servingQueue==1 imply  Main\_Controller.Process\_done) & not satisfied \\
+              \hline
+              2. & A[] not deadlock & satisfied \\
+              \hline
+              4. & A[](Request\_Handler.size > 1) & satisfied \\
+              \hline
+              6. & A[](Door(0).Opened || Door(1).Opened || Door(0).Closed  || Door(1).Closed) & satisfied \\
+              \hline
+              7. & Impossible to check in Uppaal & not satisified \\
+              \hline
+              9. & A[]not(Door(0).Opened \&\& Door(1).Opened) & satisfied \\
+              \hline
+              10.1 & A[]not(Door(0).Opened \&\& (Waterpump.Pump\_in || Waterpump.Pump\_out)) & satisfied \\
+              \hline
+              10.2 & A[]not(Door(1).Opened \&\& (Waterpump.Pump\_in || Waterpump.Pump\_out)) & satisfied \\
+              \hline
+              11.1 & A[]not(Door(0).Is\_Closing \&\& (Main\_Controller.Boats\_enter \|\| Main\_Controller.Empty\_chamber)) & satisfied \\
+              \hline
+              11.2 & A[]not(Door(1).Is\_Closing \&\& (Main\_Controller.Boats\_enter || Main\_Controller.Empty\_chamber)) & satisfied \\ 
+              \hline
+            \end{tabular}
+            \caption{Verified requirements}
+            \label{tab:verif}
+        \end{table}\\\\
+        Requirement 1 and 2 both returned not satisfied because of a liveness issue. If we would want to satisfy to these requirements, we would have to put a timer on every state so that it can not infinitely stay in one certain state. \\\\
+        Requirement 8 is impossible to verify due to not being able to verify if the the model is in multiple states in different components at the same time.
+        
+      \newpage  
+      
+    \subsection{Non-verified components} 
+    In table~\ref{tab:nonver_failed} requirements are shown that we tried to verify, but couldn't due to syntax problems. We have not found a way to verify these requirements in a proper way with the right syntax. 
+    
+     \begin{table}[h]
+            \centering
+            \begin{tabular}{|c|p{8cm}|p{2cm}|}
+                \hline
+              \textbf{Req.\#}  & \textbf{CTL Uppaal} &\textbf{Results}\\
+              \hline
+              5. & A[](Request\_Handler.queue0 != NULL \&\& Request\_Handler.queue1  != NULL) & syntax error \\
+              \hline
+              14. & A[](Main\_Controller.Wait\_for\_boat \&\& Door(0).Closed \&\& Door(1).Closed) & syntax error \\
+              \hline
+              \end{tabular}
+            \caption{Non-verified requirements: tried but failed}
+            \label{tab:nonver_failed}
+        \end{table} 
+
+    In table~\ref{tab:nonver_notver} requirements are shown that we did not try to verify, because our model was not designed in a way to make it possible to verify these specific requirements. 
+    
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{|c|p{8cm}|}
+                \hline
+              \textbf{Req.\#}  & \textbf{Reason} \\
+              \hline
+              3. &  There is no state in which there is always a difference in water level that can be detected \\
+              \hline
+              8. &  The model doesn't keep track of passed time \\
+              \hline
+              12. & Unexpected circumstances aren't taken into account\\
+              \hline 
+              14. & Unexpected circumstances aren't taken into account\\
+              \hline 
+              15. & Unexpected circumstances aren't taken into account\\
+              \hline
+              \end{tabular}
+            \caption{Non-verified requirements: not verifiable}
+            \label{tab:nonver_notver}
+        \end{table}
+
+
+\newpage
+
+\newpage
+\bibliography{references}
+\bibliographystyle{plain}
+
+\newpage
+
+\section{Appendix}
+\begin{enumerate}[label=\Roman*.]
+    \item Prescribed requirements by teacher
+    \item Assignment description, provided by teacher (in Dutch)
+    \item Personal reports (in Dutch)
+    \item Model
+    \item Ethical justification
+    \item Security-analysis
+    \item Version administration 
+\end{enumerate}
+
+\newpage
+\subsection*{Appendix I: Prescribed and implemented requirements} 
+
+    In the following table an overview is given of the prescribed requirements. An 'X' states this exact requirement has been prescribed. An 'x' states that a form of this requirement (often a more simple one) has been prescribed, and we have modified it to our specific lock. \\\\
+    Also an overview is given of which functional requirements have been implemented in the model. Please note, that in the table none of the non-functional requirements have been marked as 'implemented' because we focused on implementing the functional requirements.  
+
+    \begin{table}[h]
+            \centering
+            \begin{tabular}{|p{0.3cm}|p{7cm}|c|c|}
+                \hline
+                \textbf{\#} & \textbf{Requirement} & \textbf{Prescr.?} & \textbf{Impl.?} \\
+                \hline
+                1. & A boat can move from one side of the lock to the other (both directions) & x & X \\
+                \hline
+                2. & The lock works fully automated & X & X \\
+                \hline
+                3. & The water level in the lock chamber can change (increased/decreased) & X & X \\
+                \hline
+                4. & There are two boat-queues, one for each side of the lock & x & X\\
+                \hline
+                5. & Multiple boats can enter the lock (chamber) & x & X\\
+                \hline
+                6. & Both sides of the lock have a door, which can be opened and closed & X & X \\
+                \hline
+                7. & Signals are given to the outside world & X & X \\
+                \hline
+                8. & Entrance to and departure from the lock may take maximum one hour (including opening and closing of doors) & & \\
+                \hline \hline
+                9. & Both lock doors cannot be open at the same time  & x & \\
+                \hline
+                10. & The water level may not change while a lock door is open  & x &\\
+                \hline
+                11. & Both doors may not close while a boat should be entering or departing the lock chamber & x &\\
+                \hline
+                12. & The lock chamber may not flood or be pumped until fully empty & & \\
+                \hline
+                13. & The lock doors are closed when the lock isn't in use & & \\
+                \hline\hline
+                14. & The lock has more than 1 water level sensor & & \\ 
+                \hline
+                15. & Both lock doors open and close successfully 95\% of the time & & \\
+                \hline
+            \end{tabular}
+            \caption{Prescribed requirements}
+            
+            \label{tab:presc_impl_req}
+        \end{table}
+
+
+
+% security analysis: als communicatie buitenwereld idee implementeren, dan daar kwetsbaarheden. In huidig model geen communciatie, dus geen security analyse nodig. Overigens is het alleen een model, nog niets qua architectuur oid (focus model verificatie, niet security)
+
+
+\end{document}
+
