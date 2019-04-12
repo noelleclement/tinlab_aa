@@ -1,0 +1,96 @@
+* Sluis
+** eisen
+*** Veilig
+**** Wat is dat?
+**** hoe te vertalen?
+*** Betrouwbaar
+**** Wat is dat?
+**** hoe te vertalen?
+*** functioneel
+**** Aantal schepen
+**** Efficient
+***** Tijdslimiet aan procedure
+***** beleid scheduler
+**** Waterhoogte verschil
+**** Open en dicht
+***** Werkt overal hetzelfde?
+***** Aanvragen: hoe te modelleren?
+*** robuust
+**** wat is dat?
+**** hoe te meten?
+*** Volautomatisch:
+**** sluis wordt volledig door een machine/systeem aangestuurd 
+** Onderdelen
+*** Sluisdeuren
+**** open en dicht
+***** kost tijd
+****** hoeveel dan?
+****** waar te vinden?
+****** sluizen in serie?
+*** Sluiskolk
+**** bak met water
+*** Pompen
+**** soorten?
+**** altijd in 1 richting?
+**** betrouwbaarheid: redundantie inbouwen?
+**** uitzoeken: tandem computers, overgenomen door compaq->hp
+*** Verkeerslichten
+**** regels?
+**** aantal toestanden?
+**** simpel beginnen!
+*** Request handler
+**** verwerkt verzoeken van schepen
+*** Main_controller
+**** stuurt alles aan
+**** communiceert met de rest van de onderdelen
+** model varianten
+*** 1 enkele sluis
+**** altijd van links naar rechts of vice versa
+**** altijd om en om
+**** wachtrij gebaseerd
+**** abonnementsgebaseerd
+**** prioriteit
+*** sluizen in serie (hoogteverschil)
+*** sluizen parallel (capaciteit uitbreiden)
+*** sluis met autoverkeer
+**** stoplichten?
+**** bruggen?
+**** slagbomen?
+** werking
+*** Begintoestand
+**** Gesloten: deuren aan beide kanten dicht
+**** Waterverschil:
+***** niveau links: 20
+***** niveau rechts: 15
+***** niveau sluiskolk: 19
+**** Seinen op rood
+***** seinlampen zowel links als rechts
+**** boten aangemeld aan linkerzijde
+***** Wat is aanmelden?
+***** Hoeveel boten kunnen er liggen? 5
+*** Waterniveau in sluiskolk gelijkmaken aan links
+*** Deuren links open
+*** Seinen links op groen
+*** Boten de sluiskolk in
+*** Seinen links op rood
+*** Deuren links dicht
+*** Waterniveau gelijk aan rechts
+*** Deuren rechts open
+*** Seinen
+*** Boten uit sluiskolk
+*** deuren rechts dicht
+* eindverslag
+** Gaat uitsluitend over sluis
+** Hoe zit je model in elkaar?
+*** gemaakte keuzes?
+**** onderbouwing?
+**** literatuur onderzoek
+*** gevonden resultaten
+**** welke requirements? -> vertaling naar specs?
+**** prioriteit?
+**** Wat is geverifieerd?
+***** vertaling naar ctl
+***** geverifieerd met uppaal?
+***** hoe ver gegaan?
+      
+
