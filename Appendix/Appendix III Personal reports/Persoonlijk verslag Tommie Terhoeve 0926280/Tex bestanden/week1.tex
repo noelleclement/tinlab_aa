@@ -1,0 +1,34 @@
+\section{Inleiding}
+Dit verslag dient als leerverslag om zo mijn progressie gedurende het vak bij te houden. Tevens is dit verslag bedoeld als samenvatting van de leerstof zodat in de toekomst dit verslag gelezen kan worden als opfrissing van de stof.\\\\
+In dit verslag zullen de diverse onderwerpen van het vak belicht worden.\\ 
+Voor het ontwerpen van systemen zijn er systematische methodes ontwikkelt om dit zo efficiënt mogelijk aan te pakken. Een van de meest gebruikte methodes is Agile \cite{manifesto2001manifesto}. Een andere populaire methode is de waterval methode \cite{boehm1988spiral}.  \newpage
+
+\section{Requirements}
+\subsection{Requirements}
+De term requirements kan op een aantal manieren gedefinieerd worden.\\ Requirements kunnen vanuit het organisatorische en software-perspectief bekeken worden. Het organisatorische persectief wordt ook wel de system requirements genoemd. Het software-perpesctief staat ook bekend als de software-specifications. \\ \\ Bij het opstellen van system requirements wordt er gekeken naar de specifieke requirements van de stakeholders voor het desbetreffende systeem. Hierbij worden puur de requirements opgesteld van het gewenste eindresultaat. Bij het opstellen van System-requirements wordt er over het algemeen nog geen gebruik gemaakt van technische jargon. System requirements kunnen gezien worden als een manier om de verandering van het oude naar het nieuwe systeem te beheren. Bijvoorbeeld bij de vernieuwing van een administratiesysteem zullen de stakeholders bepaalde functionaliteiten willen die de oude versie niet bevatte. \cite{loucopoulos1995system}
+\\\\
+In de mainstream computer wereld worden system requirements ook omschreven als hardware requirements om bepaalde software te draaien. Op deze manier kunnen de ontwikkelaars garanderen dat de desbetreffende software werkt op bepaalde hardware \cite{systemrequirementsWiki}.
+\subsection{specificaties}
+Specificaties kunnen opgedeeld worden in functionele en niet-functionele requirements. Functionele requirements worden gespecificeerd door: 
+\begin{enumerate}
+\item input
+\item output
+\item processing
+\end{enumerate}
+Functionele requirements omschrijven de fundamentele functies van de software voor het systeem. Bijvoorbeeld wat het systeem moet doen bij een onverwachte situatie. Niet-functionele requirements zijn extra requirements die beperkingen leggen op het systeem. Denk hierbij aan eisen die te maken hebben met veiligheid, gebruiksvriendelijkheid of uitbreidbaarheid. Bijvoorbeeld: Doordat het systeem binnen 10 seconden moet opstarten zullen bepaalde processen niet opgestart worden tijdens het opstarten van het systeem. \\\\
+Vaak gebeurt het dat niet-functionele requirements uiteindelijk toch geclassificeerd worden als functionele requirements. Hierdoor hebben sommige de voorkeur om deze termen niet te gebruiken in de praktijk\cite{loucopoulos1995system}.
+\newpage
+\subsection{Mode confusion}
+Mode confusion is een fenomeen waarbij het systeem zich anders gedraagt dan dat de gebruik verwacht. Deze mode confusion scenario's kunnen onschuldig zijn, bijvoorbeeld wanneer je telefoon zich opnieuw willekeurig opstart. Uiteraard in scenario's zoals ziekenhuizen of vliegtuigen kan dit zorgen voor levensgevaarlijke scenario's. \cite{modeconfusion}
+
+\subsection{Scenario's}
+\subsubsection*{Vlucht 1951 Turkish Airlines}
+Op 25 februari 2009 crashte vlucht Turkish Airlines 1951 1,5km voor de landingsbaan. Hierbij kwamen 9 personen om het leven. Vliegtuigongelukken hebben vrijwel altijd meerdere oorzaken. Tijdens het onderzoek zijn ze tot de conclusie gekomen dat de meest voorhandliggende oorzaak een combinatie is van een menselijke en instrumentale fout. \\\\
+Doordat de hoogtemeter niet correct functioneerde gedraagde de automatische piloot zich anders dan verwacht. Dit is een typisch geval van mode confusion. Het systeem gedraagde zich anders dan dat de piloten verwachtte waardoor er verwarring ontstond in de cockpit.
+\subsubsection*{Therac-25}
+De Therac-25 was een radiatietherapie systeem dat zorgde voor 4 doden door een overdosis radiatie tussen juni 1985 en januari 1987. Bij het onderzoek kwam tot het licht dat er een groot aantal software-fouten in het systeem zaten. Deze software werd door 1 persoon geschreven. Vooral op het gebied van veiligheid zaten er veel gebreken in de software. Dit zou voorkomen kunnen worden indien er concrete niet-functionele specificaties werden opgesteld. \\\\
+Tevens speelt hier ook mode-confusion mee aangezien er verwarring was bij de gebruikers tijdens het geven van de radiatietherapie aangezien het systeem onverwachts reageerde \cite{leveson1993investigation}.
+\subsubsection*{Tsjernobyl 1986}
+Op 26 april 1986 ontplofte de nucleaire reactor van de Tsjernobyl kerncentrale. De oorzaak hiervan was een combinatie van slecht design, regulatie en management. Zo kon de reactor buiten de veilige specificaties gedraaid worden. Dit is een voorbeeld van slechte niet-functionele eisen aangezien er niet genoeg is nagedacht over de veiligheid van de reactor \cite{shlyakhter1992chernobyl}. 
+\subsubsection*{ARIANE 5 vlucht 501}
+Op 4 juni 1996 was de eerste vlucht van de Ariane 5 raket. Na 40 seconde week de raket af van de geplande route en explodeerde doordat de self-destruction werd geactiveerd. De oorzaak hiervan was een verlies aan guidance en hoogte informatie. Deze informatie was verloren door diverse fouten in de software door een gebrek aan concrete software specifications \cite{lions1996ariane}.

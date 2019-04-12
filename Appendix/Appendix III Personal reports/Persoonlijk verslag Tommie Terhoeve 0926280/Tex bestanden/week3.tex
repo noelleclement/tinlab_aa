@@ -1,0 +1,56 @@
+\section{Logica}
+
+\subsection{Propositielogica}
+Propositielogica is een tak van logica die werkt met proposities. Proposities zijn uitspraken die waar of onwaar zijn. Bijvoorbeeld: "Het regent" kan waar of onwaar zijn. \\ Doormiddel van logical operators kunnen er gecombineerde proposities gemaakt worden. Bijvoorbeeld: "Het sneeuwt en het is koud". De logical operator in dit geval is het woord "en", dit is een conjunctie en wordt aangeven met het symbool $\wedge$. Dit zijn de meest voorkomende logische operators \cite{schaumsOutline}:
+\begin{itemize}
+\item $\wedge$ (AND): Conjunctie
+\item  $\vee$ (OR): Disjunctie
+\item  $\oplus$ (XOR) : Inclusieve disjunctie
+\item  $\lnot$ (NOT): Negatie, $\lnot$p betekent dat p niet waar is.
+\item  $\to$ : Implicatie, p $\to$ q betekent: Als p waar is dan is q ook waar.
+\end{itemize}
+\subsection{Predicatenlogica}
+Predicatenlogica is een uitbreiding van de propositie logica. Net zoals in de propositielogica wordt er gebruik gemaakt van proposities en logische operators. In de predicatenlogica zijn er ook predicaten en kwantoren. Predicaten zeggen iets over een object of persoon. Bijvoorbeeld: Tom is een kat. Kwantoren worden gebruikt om te definiëren of een statement altijd waar is, soms waar is of nooit waar is. \\ Aan een predicaat wordt altijd een naam gegeven met argumenten. Vaak wordt hiervoor enkel 1 letter gebruikt voor de naam en argumenten. Bijvoorbeeld: Het regent vandaag en de zon schijnt. Dit predicaat zou je op kunnen schrijven als W(r,z) \cite{predicatelogic}.
+
+\subsection{Kwantoren}
+In de predicatenlogica zijn er twee kwantoren:
+\begin{itemize}
+\item $\forall$ Universele kwantor: Dit betekent voor alle.
+\item $\exists$ Existentiële kwantor: Dit betekent er is of er bestaat. 
+\end{itemize} 
+Bijvoorbeeld: Iedereen heeft een fiets. Dit kan je schrijven als $\forall$x F(x). x is hierbij de variabele die mensen voorstelt. Als we willen zeggen dat sommige mensen een fiets hebben, dan zouden we het schrijven als: $\exists$x F(x) \cite{predicatelogic}.
+\subsection{Dualiteiten}
+Dualiteiten zijn in de logica formules of relaties die uiteindelijk hetzelfde betekenen. Twee bekende voorbeelden in de propositielogica zijn de wetten van De Morgan. Voor twee proposities P en Q gelden de volgende wetten \cite{OeleLogica}:
+\begin{itemize}
+\item $\lnot$ (P$\wedge$Q) = ($\lnot$P $\vee$ $\lnot$Q)
+\item $\lnot$ (P$\vee$$Q) = ($\lnot$P $\wedge$ $\lnot$Q)
+\end{itemize}
+Op deze manier zijn er ook diverse voorbeelden van dualiteiten uit de temporele logica. Temporele logica wordt gebruikt voor het controleren van Kripke structuren in applicaties zoals UPpaal. De volgende operatoren zullen later in dit verslag uitgelegd worden. \cite{modelchecking}
+\begin{itemize}
+\item AX(f) = $\lnot$EX($\lnot$f)
+\item AG(f) = $\lnot$EF($\lnot$f)
+\end{itemize}
+\section{Computation tree logic}
+Computation tree logic, ook wel CTL* genoemd is een vorm van logica waarmee systemen kunnen worden gecontroleerd op logische fouten. CTL* formules beschrijven eigenschappen van de computation tree. CTL* formules bestaan uit path quantifiers (A,E) en temporal operators (G,F,X). De path quantifiers worden gebruikt om te controleren of een bepaald pad of alle paden vanuit een bepaalde state de bepaalde eigenschap bevatten. De temporal operators kunnen specifieker controleren waar en hoe vaak de eigenschappen in de paden bestaan. Over het algemeen zijn de eigenschappen proposities die getest kunnen worden. Zo kan er met CTL* getest worden of in het systeem een bepaalde propositie waar is gedurende een heel pad in de computation tree \cite{modelchecking}.
+\subsection{De computation tree}
+De computation tree is een visualisatie van het logische model. In de computation tree worden de logische stappen tussen states en transitions beschreven. In het geval van totale modellen zal de computation tree oneindig doorlopen aangezien er oneindig veel logische stappen mogelijk zijn. In een Kripke structuur is de "root" state waar de computation tree begint de initial state van de Kripke structuur tuple \cite{modelchecking}.
+\subsection{Operator: AG}
+De operator AG in CTL* staat voor All Globally. \\ Het model voldoet aan AG(P)  wanneer in elk pad, elke state propositie P waar is \cite{modelchecking}. 
+\subsection{Operator: EG}
+De operator EG staat voor Eventually Globally. \\ Het model voldoet aan EG(P) wanneer in 1 of meer paden elke state propositie P waar is \cite{modelchecking}.
+\subsection{Operator: AF}
+De operator AF staat voor All Finally. \\ Het model voldoet aan AF(P) wanneer in elk pad, bij tenminste 1 state Propositie P waar is \cite{modelchecking}.
+\subsection{Operator: EF}
+De operator EF staat voor Eventually Finally. \\ Het model voldoet aan EF(P)  wanneer in tenminste 1 pad, bij tenminste 1 state propositie P waar is \cite{modelchecking}.
+\subsection{Operator: AX}
+De operator AX staat voor All Next. \\ Het model voldoet aan AX(P) wanneer in de eerste state vanaf elk pad die aftakt van de initial state propositie P waar is \cite{modelchecking}.
+\subsection{Operator: EX}
+De operator EX staat voor Eventually Next. \\ Het model voldoet aan EX(P) wanneer in tenminste 1 pad die aftakt van de initial state, in de eerste state propositie P waar is \cite{modelchecking}.
+\subsection{Operator: p U q}
+De operator p U q staat voor propositie p Untill propositie q. \\ een pad in een model voldoet aan p U q wanneer propositie p waar totdat q waar is \cite{modelchecking}.
+\subsection{Operator: p R q}
+De operator p R q staat voor propositie p Release propositie q. \\ Een pad voldoet aan p R q wanneer propositie p waar is totdat q waar is. Het verschil met p U q is dat bij p R q propositie p en q beide waar zijn in de laatste state waar p waar is \cite{modelchecking}. 
+\subsection{Fairness}
+Fairness is de geneste operator AG(AF(P)). \\ Het model voldoet aan deze geneste operator indien je vanuit elk pad op een gegeven moment p = waar tegenkomt \cite{modelchecking}.
+\subsection{Liveness}
+Liveness is de geneste operator AG(p $\to$ AF(q)). \\ Het model voldoet aan deze geneste operator indien propositie q in elk pad op een gegeven moment geldt als p geldt \cite{modelchecking}. 

@@ -1,0 +1,23 @@
+\section{Modellen}
+
+\subsection{De Kripke structuur}
+De Kripke structuur is een variatie van de state transition diagram. Dit word gebruikt voor model checking om zo het gedrag van een systeem te simuleren. Dit kan dus gebruikt worden om systemen te testen op eventuele logische fouten \cite{KripkeDefinition}. \\
+\\ Kripke structuren bestaan voornamelijk uit states en transities. Een state kan omschreven worden als een staat waar het systeem zich in kan bevinden. Bijvoorbeeld een lamp heeft 2 states: aan en uit. De overgang tussen states wordt de transitie genoemd. De state waarin het systeem bevindt tijdens het opstarten wordt de initial state genoemd. 
+Een Kripke structuur wordt gedefinieerd als een tuple M = (S,I,T,L)
+\begin{itemize}
+\item  S: een verzamling states (s0,s1,s2,sx)
+\item  I: een verzameling van de initial states (i0,i1,ix)
+\item  T: een lijst van transities tussen de states (t1,t2,tx)
+\item  L: de labelingsfunctie die elke state een label geeft met proposities die waar zijn voor die state \cite{biere1999symbolic}. 
+\end{itemize}
+\subsection{Soorten modellen}
+Behalve Kripke structuren zijn er ook andere soorten modellen. Zo is er de labeled transition system (LTS). Kripke structuren en LTS lijken zeer erg op elkaar en zijn praktisch verwisselbaar \cite{LTS}.\\ Een ander soort model is het Timed Transition System (TTS). het TTS model lijkt ook zeer op Kripke structuren. Het grootste verschil hierbij is dat er in de tuple van de TTS ook clock variabele zijn inbegrepen die de tijd bijhouden \cite{alur1992minimization}. 
+\subsection{Tijd}
+In het eerder benoemde TTS model wordt er niet gebruik gemaakt van reguliere tijdseenheden zoals seconden, minuten uren etc. In plaats daarvan wordt er gebruik gemaakt van "tijdseenheden". Tijd wordt in UPPaal net als in het TTS model bijgehouden door middel van clock variabele \cite{behrmann2006tutorial}.  
+\subsection{Guards en invarianten}
+Guards zijn condities die gelden in een bepaalde transitie. Bijvoorbeeld : Indien x == 2 kan de transitie van state A naar B plaats vinden. Invarianten zijn condities die gelden in een bepaalde state. Een voorbeeld van een invariant is: y $>$ 3 anders kan het systeem zich niet in deze state bevinden \cite{behrmann2006tutorial}.
+\subsection{Deadlock}
+Een deadlock in een computersysteem vind plaats wanneer er één of meerdere processen geblokkeerd worden doordat de eisen voor die processen nooit of niet meer behaald kunnen worden. Hierdoor kan het systeem zich voor altijd in één enkel proces blijven bevinden \cite{holt1971some}. In een Kripke structuur kan dit gezien worden als een state die niet kan transitioneren naar een andere state, aangezien alle invarianten van de aangesloten states niet behaald kunnen worden. 
+\subsection{Zeno gedrag}
+Zeno gedrag komt voor in systemen wanneer er een oneindig aantal transities in een eindige tijd plaatsvind. Een bekend voorbeeld hiervan in de filosofie is Achilles en de schildpad. De theorie is dat Achilles nooit de schildpad in kan halen indien de schildpad een voorsprong heeft. Achilles zal dus in een eindige tijd een oneindig aantal stappen zetten zonder dat hij de schildpad inhaalt \cite{AchillesTortoise}.\\\\
+Bij het ontwerpen van systemen is het belangrijk om rekening te houden met Zeno gedrag. Bijvoorbeeld indien een sensor een bepaalde meting moet uitvoeren kan je Zeno gedrag voorkomen door een timer te gebruiken die de sensor om de x aantal seconden laat meten \cite{ames2005sufficient}. 

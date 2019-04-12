@@ -1,0 +1,84 @@
+\begin{thebibliography}{10}
+
+\bibitem{manifesto2001manifesto}
+A.~Manifesto, ``Manifesto for agile software development,'' 2001.
+
+\bibitem{boehm1988spiral}
+B.~W. Boehm, ``A spiral model of software development and enhancement,'' {\em
+  Computer}, no.~5, pp.~61--72, 1988.
+
+\bibitem{loucopoulos1995system}
+P.~Loucopoulos and V.~Karakostas, {\em System Requirements Engineering}.
+\newblock 01 1995.
+
+\bibitem{systemrequirementsWiki}
+``System requirements.''
+  \url{https://en.wikipedia.org/wiki/System_requirements}, n.d.
+
+\bibitem{modeconfusion}
+A.~L. Jan~Bredereke, {\em A Rigorous View of Mode Confusion}.
+\newblock 09 2002.
+
+\bibitem{leveson1993investigation}
+N.~G. Leveson and C.~S. Turner, ``An investigation of the therac-25
+  accidents,'' {\em Computer}, vol.~26, no.~7, pp.~18--41, 1993.
+
+\bibitem{shlyakhter1992chernobyl}
+A.~Shlyakhter and R.~Wilson, ``Chernobyl: the inevitable results of secrecy,''
+  {\em Public Understanding of Science}, vol.~1, no.~3, pp.~251--259, 1992.
+
+\bibitem{lions1996ariane}
+J.-L. Lions, L.~Luebeck, J.-L. Fauquembergue, G.~Kahn, W.~Kubbat, S.~Levedag,
+  L.~Mazzini, D.~Merle, and C.~O’Halloran, ``Ariane 5 flight 501 failure
+  report by the inquiry board,'' 1996.
+
+\bibitem{KripkeDefinition}
+``Kripke structure (model checking).''
+  \url{https://en.wikipedia.org/wiki/Kripke_structure_(model_checking)}, n.d.
+
+\bibitem{biere1999symbolic}
+A.~Biere, A.~Cimatti, E.~Clarke, and Y.~Zhu, ``Symbolic model checking without
+  bdds,'' in {\em International conference on tools and algorithms for the
+  construction and analysis of systems}, pp.~193--207, Springer, 1999.
+
+\bibitem{LTS}
+R.~Schoren, ``Correspondence between kripke structures and labeled transition
+  systems for model minimization,''
+
+\bibitem{alur1992minimization}
+R.~Alur, C.~Courcoubetis, N.~Halbwachs, D.~Dill, and H.~Wong-Toi,
+  ``Minimization of timed transition systems,'' in {\em International
+  Conference on Concurrency Theory}, pp.~340--354, Springer, 1992.
+
+\bibitem{behrmann2006tutorial}
+G.~Behrmann, A.~David, and K.~G. Larsen, ``A tutorial on uppaal 4.0,''
+
+\bibitem{holt1971some}
+R.~C. Holt, ``Some deadlock properties of computer systems,'' in {\em
+  Proceedings of the third ACM symposium on Operating systems principles},
+  pp.~64--71, ACM, 1971.
+
+\bibitem{AchillesTortoise}
+``Zeno's paradoxes.'' \url{https://en.wikipedia.org/wiki/Zeno%27s_paradoxes)},
+  n.d.
+
+\bibitem{ames2005sufficient}
+A.~D. Ames, A.~Abate, and S.~Sastry, ``Sufficient conditions for the existence
+  of zeno behavior,'' in {\em Proceedings of the 44th IEEE Conference on
+  Decision and Control}, pp.~696--701, IEEE, 2005.
+
+\bibitem{schaumsOutline}
+M.~L. Seymour~Lipschutz, {\em Schaum's Outlines Discrete Mathematics}.
+\newblock 2009.
+
+\bibitem{predicatelogic}
+J.~K. Mattila, ``Predicate logic,''
+
+\bibitem{OeleLogica}
+W.~Oele, ``Logica.'' \url{https://med.hr.nl/oelew/logica/logica.pdf)}.
+
+\bibitem{modelchecking}
+E.~M. Clarke, Jr., O.~Grumberg, and D.~A. Peled, {\em Model Checking}.
+\newblock Cambridge, MA, USA: MIT Press, 1999.
+
+\end{thebibliography}
