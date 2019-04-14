@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: verslag1_master.aux
+The style file: plain.bst
+Database file #1: ../resources/references.bib
+Warning--empty journal in behrmann2006tutorial
+Warning--empty year in behrmann2006tutorial
+Warning--empty journal in bozdagtherac
+Warning--empty year in bozdagtherac
+Warning--empty journal in hooks2004sos
+Warning--empty journal in hooks2015difference
+Warning--empty booktitle in leveson1997analyzing
+Warning--empty year in leveson1997analyzing
+Warning--empty publisher in oeleLogica
+Warning--empty year in oeleLogica
+Warning--empty publisher in schaumsOutline
+Warning--empty journal in onderzoeksraad2010turkish
+You've used 15 entries,
+            2118 wiz_defined-function locations,
+            572 strings with 5936 characters,
+and the built_in function-call counts, 3928 in all, are:
+= -- 358
+> -- 172
+< -- 2
++ -- 70
+- -- 54
+* -- 228
+:= -- 683
+add.period$ -- 42
+call.type$ -- 15
+change.case$ -- 67
+chr.to.int$ -- 0
+cite$ -- 27
+duplicate$ -- 178
+empty$ -- 329
+format.name$ -- 54
+if$ -- 805
+int.to.chr$ -- 0
+int.to.str$ -- 15
+missing$ -- 20
+newline$ -- 74
+num.names$ -- 30
+pop$ -- 114
+preamble$ -- 1
+purify$ -- 57
+quote$ -- 0
+skip$ -- 111
+stack$ -- 0
+substring$ -- 142
+swap$ -- 21
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 50
+warning$ -- 12
+while$ -- 36
+width$ -- 17
+write$ -- 142
+(There were 12 warnings)

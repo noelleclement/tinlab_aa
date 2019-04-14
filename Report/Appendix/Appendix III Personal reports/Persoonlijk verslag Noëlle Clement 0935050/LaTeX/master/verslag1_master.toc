@@ -1,0 +1,44 @@
+\babel@toc {dutch}{}
+\contentsline {section}{\numberline {1}Inleiding}{2}
+\contentsline {section}{\numberline {2}Requirements}{3}
+\contentsline {subsection}{\numberline {2.1}Requirements}{3}
+\contentsline {subsection}{\numberline {2.2}Specification}{4}
+\contentsline {subsection}{\numberline {2.3}Mode confusion}{5}
+\contentsline {subsection}{\numberline {2.4}Rampen analyse}{6}
+\contentsline {subsubsection}{\numberline {2.4.1}Therac-25}{6}
+\contentsline {subsubsection}{\numberline {2.4.2}Vlucht 1951}{6}
+\contentsline {section}{\numberline {3}Modellen}{7}
+\contentsline {subsection}{\numberline {3.1}Soorten modellen}{7}
+\contentsline {subsection}{\numberline {3.2}De Kripke structuur}{7}
+\contentsline {subsubsection}{\numberline {3.2.1}States}{7}
+\contentsline {subsubsection}{\numberline {3.2.2}Transitie}{8}
+\contentsline {subsubsection}{\numberline {3.2.3}Labels}{8}
+\contentsline {subsubsection}{\numberline {3.2.4}4-tuple M}{8}
+\contentsline {subsection}{\numberline {3.3}Tijd}{8}
+\contentsline {subsubsection}{\numberline {3.3.1}Invarianten en Guards}{9}
+\contentsline {paragraph}{Invariant}{9}
+\contentsline {paragraph}{Guard}{9}
+\contentsline {subsubsection}{\numberline {3.3.2}Problemen bij gebruik van tijd}{9}
+\contentsline {paragraph}{Zeno gedrag}{9}
+\contentsline {paragraph}{Deadlock}{10}
+\contentsline {paragraph}{Realisme van het model}{10}
+\contentsline {subsection}{\numberline {3.4}Parallelle compositie}{10}
+\contentsline {section}{\numberline {4}Logica}{12}
+\contentsline {subsection}{\numberline {4.1}Propositielogica}{12}
+\contentsline {subsection}{\numberline {4.2}Predicatenlogica}{12}
+\contentsline {subsection}{\numberline {4.3}Dualiteiten}{13}
+\contentsline {section}{\numberline {5}Computation Tree Logic}{14}
+\contentsline {subsection}{\numberline {5.1}Operator: AG}{14}
+\contentsline {subsection}{\numberline {5.2}Operator: EG}{15}
+\contentsline {subsection}{\numberline {5.3}Operator: AF}{15}
+\contentsline {subsection}{\numberline {5.4}Operator: EF}{15}
+\contentsline {subsection}{\numberline {5.5}Operator: AX}{16}
+\contentsline {subsection}{\numberline {5.6}Operator: EX}{16}
+\contentsline {subsection}{\numberline {5.7}Operator: p U q}{16}
+\contentsline {subsubsection}{\numberline {5.7.1}A(p U q)}{17}
+\contentsline {subsubsection}{\numberline {5.7.2}E(p U q)}{17}
+\contentsline {subsection}{\numberline {5.8}Operator: p R q}{17}
+\contentsline {subsubsection}{\numberline {5.8.1}A(p R q)}{18}
+\contentsline {subsubsection}{\numberline {5.8.2}E(p R q)}{18}
+\contentsline {subsection}{\numberline {5.9}Fairness}{19}
+\contentsline {subsection}{\numberline {5.10}Liveness}{19}
