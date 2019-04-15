@@ -1,0 +1,179 @@
+commit acba5db69183f7b15cedc086a56d3ddd1df22308
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Mon Apr 15 11:23:55 2019 +0200
+
+    last version report - finallimento yay
+
+commit fe9d70b34b35b3f8c3bab731a16d2df15bfaf013
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Sun Apr 14 14:24:38 2019 +0200
+
+    added personal report Noëlle
+
+commit 5de6abc6db80de86c545cf019f38e8c88321db9f
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Apr 12 15:53:40 2019 +0200
+
+    Added personal report Tommie Terhoeve to appendix III
+
+commit 103df4c243c4bd6007286e56c5b990db4ee8dbac
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Apr 12 10:56:17 2019 +0200
+
+    Appendix added
+
+commit 2d381e9721cccfc4ff6ee1bdf9a1f840084b34f8
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Thu Apr 11 13:22:53 2019 +0200
+
+    almost final version of report, were almost there woohoo
+
+commit ba3844d5779e8971a052c3b77a663e758a5e0729
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Wed Apr 10 11:20:17 2019 +0200
+
+    Added criteria chapter
+
+commit ccb6675739c7faf814372212ab032cbab17cfa31
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Mon Apr 8 12:35:06 2019 +0200
+
+    First version verslag
+
+commit 795d07bf474a68bd0bd1130bb5501c5a348f1ced
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Fri Apr 5 17:53:18 2019 +0200
+
+    lock5 - small changes
+
+commit 5d133764b72d4fbaa332ec0c125f1bc04cf17fe9
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Apr 5 12:12:43 2019 +0200
+
+    Lock5 - verified and changed servingqueue range to 0-1
+
+commit fe5492e54ac26d6b783600331a2b5d2b559021bb
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Tue Apr 2 11:32:16 2019 +0200
+
+    lock5 signaling - small changes, prettifying and names
+
+commit 0be3d6cdf2452e52073ec5b98b0300a3f3e973a4
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Mon Apr 1 11:55:43 2019 +0200
+
+    lock5 with signaling - prettifying
+
+commit 5007ef97349421e253d86c153481e3f6de4d1cb1
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Mon Apr 1 11:17:44 2019 +0200
+
+    Lock 5 - added signals - needs double checkin'
+
+commit 30d3490f7568f35b72bd3314505f8525c023df30
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Mar 29 13:34:41 2019 +0100
+
+    lock 5 - started working on signaling
+
+commit 4c428cd3ba358409547d339c1c3878263000736e
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Mar 29 13:10:26 2019 +0100
+
+    Lock 5 - created
+
+commit ebccb99b2c0e966a179c2a4161213967f571adf6
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Mar 29 13:08:07 2019 +0100
+
+    Lock 4 - Finished
+
+commit 4ec3d27c5c8e800be212ecc29bde4fd4453f624f
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Fri Mar 29 12:03:29 2019 +0100
+
+    lock4 prettified - no deadlock but prob zeno behaviour, yay
+
+commit 1f10430675de708e95e148d834b55a01c800cd10
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Fri Mar 29 10:49:32 2019 +0100
+
+    lock4 prettified - but not fully yet haha, deadlock
+
+commit 5a47d17b3f76ca10860c9f9162856fcc9bfeb547
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Fri Mar 29 09:50:33 2019 +0100
+
+    Lock 3.5 - Model finished - needs code cleanup
+
+commit b5ecc1388c9d10dab600b9e021f710ba414c6985
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Thu Mar 28 14:21:32 2019 +0100
+
+    lock3.5 - pull now works correctly
+
+commit 4c7fe82dcc37e5ea84ea7acf09c55fbacba6cea0
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Thu Mar 28 14:17:44 2019 +0100
+
+    Create Lock3.5 Tommie's take on queue.xml
+
+commit efc0a7eace6c0abe6cd025ace628fd5e2875b20c
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Tue Mar 26 14:29:19 2019 +0100
+
+    model 3 - more global - beautyfiing and added start queue
+
+commit 5c3ac16221f70957cc9badef25009c30e90776f2
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Tue Mar 26 10:50:41 2019 +0100
+
+    Model3 - moreglobal - two way canal lock works without queue
+
+commit 8d8b1ee5b2e3778b744296dca4abce1ae4cfcbb0
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Tue Mar 26 10:03:24 2019 +0100
+
+    Model3 - moreglobal - Waterlevel & pumping start implemented
+
+commit cfc5892157e63f101d9906cb5a52c658441a1879
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Mon Mar 25 12:50:08 2019 +0100
+
+    Begonnen aan geadvanceerde pomp
+
+commit d810cadc0eb3fb8029d3d7941062e6ce341a7b18
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Mon Mar 25 12:09:29 2019 +0100
+
+    model 3 - more global - door order now dependent on (simulated) queue side
+
+commit 11be31d6977f1924d367891eaa8ad33ced86a610
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Mon Mar 25 11:36:23 2019 +0100
+
+    model 3 - more global - made doors more global
+
+commit 0e109e96d16371f0eff2eaa139a752dc98da7405
+Author: NoelleIsThaBomb.com <noelleclement@hotmail.com>
+Date:   Mon Mar 25 11:04:41 2019 +0100
+
+    added second simple lock model, changed some of the order and removed timers in maincontroller
+
+commit 172f531e3e11c7465445b99e1b60f341542ef9aa
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Thu Mar 21 11:41:02 2019 +0100
+
+    Namen 2 states veranderd
+
+commit 25946fda433bf1b7349d8ee222a667154eb331a1
+Author: Tommie Terhoeve <tommieterhoeve@gmail.com>
+Date:   Thu Mar 21 11:40:13 2019 +0100
+
+    Eerste simpele sluis gemaakt
+
+commit 537a5b5866ff78d7ea90a9166d62a19585934c39
+Author: Noëlle Clement <noelleclement@hotmail.com>
+Date:   Mon Mar 18 10:36:05 2019 +0100
+
+    Initial commit

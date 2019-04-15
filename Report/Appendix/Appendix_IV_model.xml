@@ -429,7 +429,7 @@ int[0,2] queueToCheck;
 
 
 
-const int size = 3;
+const int size = 3;            
 int tail[size];
 // Left side
 int queue0[size];
@@ -800,7 +800,61 @@ system Main_Controller, Boat, Request_Handler, Door, Waterpump, Signal;
     </system>
 	<queries>
 		<query>
+			<formula>A[]not(Door(1).Is_Closing &amp;&amp; (Main_Controller.Boats_enter || Main_Controller.Empty_chamber))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]not(Door(0).Is_Closing &amp;&amp; (Main_Controller.Boats_enter || Main_Controller.Empty_chamber))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]not(Door(1).Opened &amp;&amp; (Waterpump.Pump_in || Waterpump.Pump_out))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]not(Door(0).Opened &amp;&amp; (Waterpump.Pump_in || Waterpump.Pump_out))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[]not(Door(0).Opened &amp;&amp; Door(1).Opened)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
 			<formula>A[](Door(0).Opened || Door(1).Opened || Door(0).Closed  || Door(1).Closed)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[](Request_Handler.size &gt; 1)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[](Main_Controller.servingQueue==1 imply  Main_Controller.Process_done)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[](Main_Controller.servingQueue==0 imply  Main_Controller.Process_done)
 			</formula>
 			<comment>
 			</comment>
