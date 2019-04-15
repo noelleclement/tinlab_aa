@@ -34,15 +34,15 @@
 \newpage
 \section{Introduction}
     This report serves as additional information and justification for the model developed for the Advanced Algorithms course. \\\\
-    The assignment states that students need to model a fully automated water lock. The assignment description is provided in appendix I in Dutch. The given model represents our vision of this. Further information on the specifics will be provided in the following chapters, including the choices that led to our final model. Finally, the model has been verified in Uppaal to check whether our model fulfills the specified requirements. \\\\
+    The assignment states that students need to model a fully automated water lock. The assignment description is provided in appendix II in Dutch. The given model represents our vision of this. Further information on the specifics will be provided in the following chapters, including the decisions that led to our final model. Finally, the model has been verified in Uppaal to check whether our model meets the specified requirements. \\\\
     For the scope of our assignment certain components or aspects haven't been included. Where required, additional information is provided. 
 
 \newpage
 
 \section{Requirements}
-    In the following chapter the requirements and specifications for our model are specified. Additionally, reasonings on both are provided. \\
-    The main source used to define the requirements is the given assignment description. Additionally where required, we have used scientific resources. Sometimes we have even used our professional knowledge and common sense. \\\\
-    As stated in the assignment description, we're not taking unexpected circumstances into account in our model. We have however made some exemplary non-functional requirements, of which we have implemented some in the model too.  
+    In the following chapter the requirements and specifications for our model are specified. Additionally, considerations on both are provided. \\
+    The main source used to define the requirements is the given assignment description. Additionally where required, we have used scientific resources. In some cases we have used our educational knowledge and common sense. \\\\
+    As stated in the assignment description, we're not taking unexpected circumstances into account in our model. We have however made some exemplary non-functional requirements, of which we have implemented a few in the model.  
     
     \subsection{Requirements}
         %functional req's
@@ -122,28 +122,39 @@
         
         \subsubsection{Functional requirements}
         %wat prescribed, wat gedeeltelijk, waarom anders?
-        During our lectures the teacher prescribed certain features of the to-be-modelled lock. Some of these have been described in the written assignment, however, some haven't. We have still included those in the list of prescribed requirements, since it was clear that these needed to be included. See Appendix I for an overview of these prescribed requirements.\\\\
+        During our lectures the teacher prescribed certain features of the to-be-modelled lock. Some of these have been described in the written assignment, however, some have not. We have still included those in the list of prescribed requirements, since it was clear that these needed to be included. See Appendix I for an overview of these prescribed requirements.\\\\
         As shown in Appendix I, a few requirements have been partially or more extensively implemented than prescribed. Below is described how these differ from prescribed, and why they have been implemented in this way.
         
-        \begin{itemize}
-            \item[1.]  A core functionality of a lock is that a boat needs to be able to move from one side to another. In our model we wanted the boat to be being able to move in both directions.
-            \item[4.] Since the boats are able to move through the lock from both sides, queues need to be implemented for both sides.
-            \item[5.] A minimum of one boat needs to be able to enter the lock (chamber). We added the ability to have multiple boats in the lock chamber, to have added reality.  
-        \end{itemize}
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{c|p{9cm}}
+                 \textbf{Req. \#} & \textbf{Implemenation} \\
+                 \hline
+                 1. & A core functionality of a lock is that a boat needs to be able to move from one side to another. In our model we wanted the boat to be being able to move in both directions. \\
+                 \hline 
+                 4. & Since the boats are able to move through the lock from both sides, queues need to be implemented for both sides. \\
+                 \hline 
+                 5. & A minimum of one boat needs to be able to enter the lock (chamber). We added the ability to have multiple boats in the lock chamber, to have added reality. \\
+            \end{tabular}
+            \caption{Expanded implementation of prescribed requirements}
+            \label{tab:expanded_reqs}
+        \end{table}
         
         \subsubsection{Non-functional requirements}
-        As stated before, we chose to focus on the functional requirements in the model. However, we wanted to describe and (where possible) implement some non-functional requirements. We chose to focus on the quality attributes 'safety' and 'reliability'. 
+        As stated before, we chose to focus on the functional requirements in the model. However, we wanted to describe and (where possible) implement some non-functional requirements. We chose to focus on the quality attributes 'safety' and 'reliability'. \\\\
+        Oxford Dictionary defines safety as follows : \textit{"the condition of being protected from or unlikely to cause danger, risk, or injury"}. With this in mind we created requirements which will decrease the possibility of a dangerous scenario occurring. \\\\
+        One of the key elements of increasing the reliability of a system, is including some way of redundancy to the given system. Generally, this is achieved by including back-up systems such as extra sensors and actuators. By comparing the readings of multiple identical sensors a faulty one can be detected and replaced \cite{billinton1992reliability}. \\\\
+        Security and reliability are terms that are often used in the same context, even though they are very different from each other.  Scenarios can be unsafe (safety) without any components failing (reliability). On the other hand, components can also fail (reliability) without any dangerous scenarios occurring (safety) \cite{leveson2011engineering}. 
         
        \subsection{Specifications}
-        For this assignment we are focusing on the required components for the model. Hence, we won't specify the technical components (the specifications) of the to-be-developed lock. For more information on the components, see section~\ref{subsec:modelcomp}: 'Modelled components'.  
+        For this assignment we are focusing on the required components for the model. Hence, we will not specify the technical components (the specifications) of the to-be-developed lock. For more information on the components, see section~\ref{subsec:modelcomp}: 'Modelled components'.  
         
 
 
 \newpage
 \section{The Model}
-The file with our model is included with this report as Appendix IV. The model has been made in Uppaal, an application with which one can create 'labeled timed state transition diagrams'. Below a description is given of the modelled components, the operation of the model, our considerations. Finally a comparison with the model criteria of Vaandrager is made. 
+The xml file that is included with this report as Appendix IV contains our model. The model has been made in Uppaal, an application in which one can create 'labeled timed state transition diagrams'. In this chapter a description is given of the modelled components. Furthermore, the operation of the model, our considerations are also included in this chapter. Finally a comparison with the model criteria of Vaandrager is made. 
 
-    %TODO koppeling specifications
     \subsection{Modeled components} \label{subsec:modelcomp}
         For our model we have modelled the following components:
         \begin{itemize}
@@ -173,7 +184,6 @@ The file with our model is included with this report as Appendix IV. The model h
         \subsubsection{A simple boat}
             The boat's only purpose is to request to be added to a queue. This request will be handled by the request handler.
     
-    %TODO koppeling functionele requirements (processen)
     \subsection{Operation of the model}
         To explain the full process of our modelled system we have provided a detailed description. \\
         The scenario is as follows: The queue at the left side of the lock is full and the water level in the lock chamber is higher than the water level at the left side of the lock. Note: the lock works in both directions, the scenario provided below is for explanatory reasons.
@@ -205,10 +215,10 @@ The file with our model is included with this report as Appendix IV. The model h
         
         
         
-    \subsection{Considerations} %welke ontwerpkeuzes, waarom, consequenties
+    \subsection{Considerations}\label{subsec:considerations} %welke ontwerpkeuzes, waarom, consequenties
         See Appendix I for an overview of all the implemented requirements. Our considerations will focus on choices made during the design process of the model.\\\\
         To keep our model organized and easily readable we decided to make a separate template for each component. This also allows us to easily expand our model in the future. A possible disadvantage of this is that one is not able to verify whether two components are simultaneously in a certain state. We experienced this during the verification process.  \\\\
-        To simulate the three queues of our water lock we used integer arrays with a capacity of 3 integers. This allows us to use unique boat ID's in the future if necessary, even if we do not use those at the moment (to prevent added complexity). Using arrays instead of a simple integer counter also means that debugging is easier. Because we do not use unique boat ID's at the moment, some things are not verifiable with our current model, such as verifying that a particular boat successfully passes through the lock. \\\\
+        To simulate the three queues of our water lock we used integer arrays with a capacity of 3 integers. This allows us to use unique boat ID's in the future if necessary. Even though we do not make use of those at the moment (to prevent added complexity). Using arrays instead of a simple integer counter also means that debugging is easier. Since we do not use unique boat ID's at the moment, some aspects are not verifiable with our current model, such as verifying that a particular boat successfully passes through the lock. \\\\
         We decided to not implement water level sensors in our model to prevent the model from becoming too complex. Instead we let the main controller check and regulate the water level by switching on and off the water pump. However, the model has been designed in such a way that makes it possible to implement this expansion easily. \\\\
         For the signaling system we decided to not go too much in-depth since it is irrelevant for this version of our model. For example we decided to make use of one signaling system for both directions. We also modeled the type of signal that will be displayed, not the actual (electrical) signal itself. 
 
@@ -285,12 +295,12 @@ The file with our model is included with this report as Appendix IV. The model h
             \caption{Verified requirements}
             \label{tab:verif}
         \end{table}\\\\
-        Requirement 1 and 2 both returned not satisfied because of a liveness issue. If we would want to satisfy to these requirements, we would have to put a timer on every state so that it can not infinitely stay in one certain state. \\\\
+        Requirement 1 and 2 both use the liveness operator (in Uppaal: A[]p imply q). Liveness is dependent on the passage of time, which was not fully implemented in the model. \\\\
         Requirement 8 is impossible to verify due to not being able to verify if the the model is in multiple states in different components at the same time.
         
       \newpage  
       
-    \subsection{Non-verified components} 
+    \subsection{Non-verified components}\label{subsec:nonver_comp}
     In table~\ref{tab:nonver_failed} requirements are shown that we tried to verify, but couldn't due to syntax problems. We have not found a way to verify these requirements in a proper way with the right syntax. 
     
      \begin{table}[h]
@@ -308,8 +318,7 @@ The file with our model is included with this report as Appendix IV. The model h
             \label{tab:nonver_failed}
         \end{table} 
 
-    In table~\ref{tab:nonver_notver} requirements are shown that we did not try to verify, because our model was not designed in a way to make it possible to verify these specific requirements. 
-    
+    In table~\ref{tab:nonver_notver} requirements are shown that we did not attempt to verify, because our model was not designed in such a way to make it possible to verify these specific requirements. 
         \begin{table}[h]
             \centering
             \begin{tabular}{|c|p{8cm}|}
@@ -334,6 +343,22 @@ The file with our model is included with this report as Appendix IV. The model h
 
 \newpage
 
+\section{Conclusion}
+    For the TinLab Advanced Algorithms we received the assignment to design a system model for a water lock. To realize this we needed to set up requirements, create a model and finally verify the requirements for the model. Like with most projects, we discovered some limitations and possible improvements for our current version.
+    
+    \subsection{Limitations}
+        During the verification process, it became apparent that certain requirements would not be verifiable (in the current model). For some this was due to a liveness problem, for others we could not verify whether multiple components were in certain states simultaneously. Also, some requirements have not been verified because the requirement itself was not implemented in the model.\\\\
+        It is important to note that what has been verified is limited to what we set as requirements. During the development process, we mainly focused on the functional requirements. Some non-functional requirements have been formulated as well, but mostly to serve as an example. \\\\
+        For more specific limitations to our model, please refer to section~\ref{subsec:considerations}. For an overview of what components have not been verified, please refer to section~\ref{subsec:nonver_comp}.
+          
+    
+    \subsection{Advice}
+        During the verification process for requirement 1 and 2, both returned 'not satisfied' because of a liveness issue. Should one want to satisfy these requirements, a timer has to be put on every state so that it can not infinitely stay in one certain state.\\\\
+        To make it possible to verify whether multiple components are in certain states simultaneously, one would be forced to modify the model. Parallel composition can be used to make sure both components can only transition after certain states in the main components. However, for this a major and complex redesign is required. \\\\ 
+        It is advised to include and implement more non-functional requirements. These requirements (like safety and reliability) are immensely important when a system such as a lock will be put into use, also with ethical responsibility in mind. \\\\
+        Should one wish to expand the functionality of the communication system between the lock and the boats, security should be kept in mind. With more external communication, also comes an increased chance of vulnerabilities. While a more advanced communication / queuing system would have its advantages, these are things that need to be taken into account. 
+    
+
 \newpage
 \bibliography{references}
 \bibliographystyle{plain}
@@ -346,9 +371,7 @@ The file with our model is included with this report as Appendix IV. The model h
     \item Assignment description, provided by teacher (in Dutch)
     \item Personal reports (in Dutch)
     \item Model
-    \item Ethical justification
-    \item Security-analysis
-    \item Version administration 
+    \item Version administration (github log)
 \end{enumerate}
 
 \newpage
